@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Topics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff4d4d, #1a75ff);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo img {
+            width: 120px;
+        }
+
+        .home-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 100px); /* Adjust for header height */
+            flex-direction: column;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 20px 0;
+            color: white;
+            text-shadow: 2px 2px 8px #000;
+        }
+
+        .cards {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 20px;
+            scroll-behavior: smooth;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .cards::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .cards::-webkit-scrollbar-thumb {
+            background-color: #007BFF;
+            border-radius: 10px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            min-width: 250px;
+            max-width: 300px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card img {
+            width: 100%;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-content p {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .card-content a {
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .card-content a:hover {
+            background-color: #0056b3;
+        }
+
+        .published {
+            margin-top: 30px;
+            color: orange;
+            cursor: pointer;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #fff;
+            text-shadow: 1px 1px 6px #000;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    
+        
+    </style>
+    
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgBjt3Uo8AEX2b0xz9AM-UEYYK2HYty_N_8Ya8N3v1bOOGCyWkWclhPRhJlXuUfRrctG3-W5JE43mD_2PKGJmKUDVZp9yp0nV3wIhq39Q99LeTGq_KTCujSjQS6FPqheZHI7q0MANZSOlk5slkPmzM1dgrysOWOiEhw2yqbOfaF396VJlY/s1600/Picsart_24-10-13_18-52-02-336.png" alt="Logo">
+        </div>
+        <a href="index.html"><button class="home-button">Home</button></a>
+    </header>
+
+    <div class="container">
+        <h1>Explore and Learn</h1>
+
+        <!-- Sliding Cards -->
+        <div class="cards">
+            <div class="card">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgHQbwbwwJ944vNRnN5tCdw_NPpnn0VUMSxlg0d6gB52cKU7ZmyQN77rnH11Qc4k7X3xAvwKnt4WbFs9QLLkLD4hJVCvgacQHVVU84331JaRIi1TsjFynqlKTvAaKCPSc_yIhlTEcS3d2eBE4pIRXBiXZtvhvuc1DqPpNxdnVaQN7Yq5Rk/s1600/android.jpeg" alt="Android">
+                <div class="card-content">
+                    <h2>Android</h2>
+                    <a href="android.html">Visit</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-content">
+                    <h2>Update in Progress</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Published Section -->
+        <div class="published" id="publishedText">*VC Established Site*</div>
+    </div>
+
+    <footer>
+        <center><p>TURBOZT</p> <br> <p>2024</p></center>
+    </footer>
+
+    <!-- Modal for Published Information -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Verified content only. For more about VC, visit the website info below. Thank you!</p>
+        </div>
+    </div>
+<script>
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable F12 and inspect element
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+
+        // Page load effect
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+    <script>
+        // Add smooth scrolling to card container for better UX
+        document.querySelector('.cards').addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            document.querySelector('.cards').scrollLeft += evt.deltaY;
+        });
+
+        // Modal functionality
+        var modal = document.getElementById("myModal");
+        var publishedText = document.getElementById("publishedText");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Open the modal when the user clicks the "Published" text
+        publishedText.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Close the modal when the user clicks on <span> (x)
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close the modal when the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <!-- Info Link -->
+    <div style="text-align:center; margin-top: 20px;">
+        To know more about the website click this <a href="info.html">link</a>
+    </div>
+</body>
+</html>

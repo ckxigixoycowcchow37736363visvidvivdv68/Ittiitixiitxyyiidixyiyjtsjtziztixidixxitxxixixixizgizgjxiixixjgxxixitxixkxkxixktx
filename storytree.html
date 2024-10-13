@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbozt - Upcoming Stories</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #87CEEB, #B0E0E6); /* Sky atmosphere background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: auto;
+            overflow: auto;
+            padding: 10px;
+            box-sizing: border-box;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        img.logo {
+            width: 100px;
+            height: auto;
+            max-width: 100%;
+        }
+
+        @media screen and (min-width: 769px) {
+            img.logo {
+                width: 150px;
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        h2 {
+            font-size: 16px;
+            color: #444;
+            margin: 10px 0;
+            position: relative;
+            background: #ADD8E6;
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: inset -4px -4px 10px rgba(255, 255, 255, 0.5),
+                        inset 4px 4px 10px rgba(0, 0, 0, 0.2),
+                        0 5px 15px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            transition: transform 0.3s ease;
+            width: auto;
+            max-width: 100%; /* Ensure bubbles take full width on desktop */
+            word-wrap: break-word; /* Wrap long words */
+            text-align: center;
+        }
+
+        h2:hover {
+            transform: scale(1.1);
+        }
+
+        @media screen and (min-width: 769px) {
+            h2 {
+                font-size: 20px;
+                width: 80%; /* Bubble width will increase to 80% of the container on desktop */
+            }
+        }
+
+        .center-title {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .info-link {
+            display: none;
+            cursor: pointer;
+            color: orange;
+            text-align: center;
+            margin-top: 20px;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        @media screen and (max-width: 768px) {
+            img.logo {
+                width: 80px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 14px;
+                width: 100%; /* Bubble width for mobile will be full */
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+            h1 {
+                font-size: 36px; /* Increase title font size on desktop */
+                white-space: nowrap; /* Prevent title from wrapping */
+            }
+
+            .center-title {
+                font-size: 24px; /* Increase center title size on desktop */
+                white-space: nowrap; /* Prevent center title from wrapping */
+            }
+
+            .info-link {
+                font-size: 18px; /* Increase modal link text size on desktop */
+            }
+
+            .modal-content {
+                font-size: 18px; /* Larger font size inside modal */
+            }
+
+            /* Footer Text */
+            footer {
+                font-size: 18px; /* Increase footer text size */
+                white-space: nowrap; /* Prevent footer text from wrapping */
+            }
+
+            /* Link at the bottom */
+            footer a {
+                font-size: 18px;
+                white-space: nowrap; /* Prevent link text from wrapping */
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; 
+            background-color: rgba(0, 0, 0, 0.4); 
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        /* Progress Styles */
+        .progress {
+            display: inline-block;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 10px;
+            width: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: #4CAF50;
+            height: 100%;
+            width: 100%; /* 100% for completed */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .loading-bar {
+            background-color: orange;
+            height: 100%;
+            width: 40%; /* Adjust width for "still loading" progress */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && (event.key === 'u' || event.key === 'c' || event.key === 'x' || event.key === 'i')) {
+                event.preventDefault();
+            }
+        });
+
+        window.onload = function() {
+            setTimeout(function() {
+                document.querySelector('.info-link').style.display = 'block';
+            }, 2000);
+        };
+    </script>
+</head>
+<body>
+    <header>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjnKLx-rFKwzwJK-QKH6xs4PnxJbWzed2zckZUr1siYOZ3OK6v4W71MBbUnvux-_ZZj9fV6k1NsxAszJftnbOujhs_8TrkDHs20cvUhVBrlhyphenhyphen8toGoqp1hSRinsufKYCozZix-sYboKe8y7C-7qLCrpuQbL4XIPti6jBKq_xOurLiPDNr4/s1600/logo.png" alt="Turbozt Logo" class="logo">
+        <h1>Upcoming Stories</h1>
+    </header>
+
+    <div class="center-title">ALL PROJECTS LISTED BELOW</div>
+
+    <!-- Fully Completed Projects -->
+    <h2>The Ancient World Of Sayatrian Part: 1<br>-2020<br><center>Completed ✓</center></h2>
+    <div class="progress"><div class="progress-bar"></div></div>
+
+    <h2>Lines Of Imagination Part: 1<br>-2024<br><center>Completed ✓</center></h2>
+    <div class="progress"><div class="progress-bar"></div></div>
+
+    <!-- Upcoming Projects with Loading Indicator -->
+    <h2>The Dark Prophet<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>City Boy<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>Batman Real<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>Shadow Woman: Escape From Lost World<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>The Ancient World Of Sayatrian Part: 2<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>Lines Of Imagination Part: 2<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>Duel<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>Paranormal Activity<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <h2>Love<br><center>-Upcoming</center></h2>
+    <div class="progress"><div class="loading-bar"></div></div>
+
+    <div class="info-link" onclick="document.getElementById('infoModal').style.display='block'">
+        *VC established site*
+    </div>
+<script>
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable F12 and inspect element
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+
+        // Page load effect
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('infoModal').style.display='none'">&times;</span>
+            <p>Verified Content only. Visit the website for more info about VC rules. Thank You!</p>
+        </div>
+    </div>
+
+    <script>
+        window.onclick = function(event) {
+            var modal = document.getElementById('infoModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <footer>
+        <p>For more enquiry, <a href="mailto:turboztofficial@gmail.com" target="_blank">CONTACT US</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbozt</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.8), rgba(255, 255, 0, 0.8)); /* Yellow-orange gradient */
+            height: 100vh; /* Full viewport height */
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        img.logo {
+            width: 200px;
+            height: auto;
+            max-width: 100%;
+        }
+
+        /* Marquee Styles */
+        .marquee {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+
+        .marquee span {
+            display: inline-block;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100vw); }
+        }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            justify-content: space-evenly;
+            margin: 50px 0;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab {
+            background-color: #333;
+            color: white;
+            padding: 20px 50px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            width: 30%;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .tab:hover {
+            background-color: #555;
+        }
+
+        @media screen and (max-width: 768px) {
+            .tab {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .tab {
+                font-size: 18px;
+                padding: 15px 30px;
+            }
+
+            .marquee {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPLy2sqhRCSKQgodZhaJEa8QvWwyMVvRFr4TxK74Dip9_Zw22h5d5_pSI4yIpTgkAcQqn_IwQoiriZVO4EGxC1JWqB5Bj54pTflaHvz6y3__E_OR0ueY31ETrweIxebhdxqGtJxzO7lr4oJAYZ4Y_ERk57jB8IvhUbocQZdP4rOBqZ4dU/s1600/logo.png" alt="Turbozt Logo" class="logo">
+    </header>
+
+    <div class="marquee">
+        <span>Turbozt Web : Today's message : "start your idea Now!"  <p style="font-size:5px;">*VC established site*</p> </span>
+    </div>
+
+    <div class="tabs">
+        <div class="tab" onclick="window.location.href='apps.html'">Apps</div>
+        <div class="tab" onclick="window.location.href='education.html'">Education</div>
+        <div class="tab" onclick="window.location.href='entertainment.html'">Story</div>
+    </div>
+
+    <!-- Prevention scripts -->
+    <script>
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable F12 and Ctrl+Shift+I (Developer Tools)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+
+        // Fade-in effect on page load
+        window.onload = () => {
+            document.body.classList.add('loaded');
+        };
+    </script>
+    <!-- Modal for Info -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('infoModal').style.display='none'">&times;</span>
+            <p>This website is a self-made initiative by Turbozt, a private company founded by a single individual without external support or funding.
+                the aim of my company to build healthy community of new generation.Thank you for visiting this site.
+            </p>
+        </div>
+    </div>
+    <script>
+    // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            var modal = document.getElementById('infoModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }</script>
+    to know more about this website visit this <a href="info.html">link</a>
+    <p align="center"> *initiated @2024*</p>
+</body>
+</html>

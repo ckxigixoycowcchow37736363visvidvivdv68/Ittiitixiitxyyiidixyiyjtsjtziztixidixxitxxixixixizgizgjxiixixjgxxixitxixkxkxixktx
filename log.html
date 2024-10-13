@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TURBOZT App Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        header {
+            text-align: center; /* Center align the header */
+            margin-top: 10px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px; /* Increase font size for better visibility */
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TURBOZT App Report</h1>
+    <header>
+        <a href="apps.html"><button>Back to Apps</button></a>
+    </header>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>App Name</th>
+                <th>Version</th>
+                <th>Size</th>
+                <th>Uploaded Site</th>
+                <th>Date Uploaded</th>
+                <th>Changes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Notepad</td>
+                <td>1.1.0</td>
+                <td>3.91 MB</td>
+                <td>OneDrive Microsoft</td>
+                <td>2024-10-08 22:26</td>
+                <td>Changed site location</td>
+            </tr>
+            <tr>
+                <td>Notepad</td>
+                <td>1.1.1</td>
+                <td>3.91 MB</td>
+                <td>OneDrive Microsoft</td>
+                <td>2024-10-09 17:34</td>
+                <td>Added new feature</td>
+            </tr>
+            <tr>
+                <td>Notepad</td>
+                <td>1.1.2</td>
+                <td>3.91 MB</td>
+                <td>OneDrive Microsoft</td>
+                <td>2024-10-10 18:15</td>
+                <td>Upgraded</td>
+            </tr>
+            <!-- Add more app entries here -->
+        </tbody>
+    </table>
+
+    <footer>
+        VC established site.<p>2024</p>TURBOZT.
+    </footer>
+<script>
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable F12 and inspect element
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+
+        // Page load effect
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+</body>
+</html>
