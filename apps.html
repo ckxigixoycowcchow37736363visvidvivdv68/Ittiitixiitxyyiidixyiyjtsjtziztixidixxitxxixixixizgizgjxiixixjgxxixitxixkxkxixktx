@@ -155,6 +155,15 @@
             cursor: pointer;
             text-decoration: underline;
         }
+  .offline-tag {
+    display: inline-block;
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    padding: 5px 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
+    margin-left: 10px; /* Space between the image and the tag */
+    font-weight: bold; /* Make the text bold */
+}
     </style>
 </head>
 
@@ -175,14 +184,15 @@
     <div id="app-list">
         <div class="app" data-name="App 1">
             <div class="app-header">
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQWWeMrUmdWFnlixxGyItbWJGXF4n9jChqvaUVJEFSvdLXZ9ceEa631a43Okw2vmvR4wjckLFQsjY_xVAQpobKMeFHG2gq2LPESY7sP8N_VV43A8RyCsFQROsqDnZ2Zz61wPTkNqg1gkU3_0NK3ScRnui1Qaxb1FPQaDZy4iVVUqf0XTU/s1600/notepadlog.jpg" alt="App 1">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQWWeMrUmdWFnlixxGyItbWJGXF4n9jChqvaUVJEFSvdLXZ9ceEa631a43Okw2vmvR4wjckLFQsjY_xVAQpobKMeFHG2gq2LPESY7sP8N_VV43A8RyCsFQROsqDnZ2Zz61wPTkNqg1gkU3_0NK3ScRnui1Qaxb1FPQaDZy4iVVUqf0XTU/s1600/notepadlog.jpg" alt="App 1" style="width: 100px; height: auto; display: inline-block;">
+                 <span class="offline-tag">Offline Free App</span>
             </div>
 
 
 <div id="videoContainer">
     <iframe width="320" height="240" src="https://www.youtube.com/embed/tkRV-Ceqo3U" frameborder="0" allowfullscreen></iframe>
 </div>
-            <h3>.notepad: your digital diary!</h3>
+            <h3>notepad. : your digital diary!</h3>
             <p><strong>Size: 3.91mb</strong><p>Uploaded: 2024-10-8</p>
             </p>
 
@@ -190,7 +200,7 @@
 
             <button onclick="toggleDescription('desc1')">Read More</button>
             <div id="desc1" class="description">
-                <p>.notepad is a simple yet efficient digital diary designed for users who want to capture their thoughts instantly. Whether it's for quick notes or maintaining a daily diary, this app ensures a seamless writing experience without any need to save manually. As soon as you pause or take your hands off the keyboard, the app automatically saves your entries.With .notepad, you can easily export your diary entries whenever needed. It also offers the ability to create backups to safeguard your writings, though it's important to note that managing and maintaining backups is the user's responsibility.This offline app is completely free to use and does not require an internet connection, making it ideal for on-the-go note-taking or diary writing without distractions.</p>
+                <p>notepad. is a simple yet efficient digital diary designed for users who want to capture their thoughts instantly. Whether it's for quick notes or maintaining a daily diary, this app ensures a seamless writing experience without any need to save manually. As soon as you pause or take your hands off the keyboard, the app automatically saves your entries.<p>With notepad., you can easily export your diary entries whenever needed. It also offers the ability to create backups to safeguard your writings, though it's important to note that managing and maintaining backups is the user's responsibility.</p>This offline app is completely free to use and does not require an internet connection, making it ideal for on-the-go note-taking or diary writing without distractions.</p>
                 <button class="download-button" onclick="showPopup()">Download</button>
             </div>
         </div>
@@ -236,7 +246,7 @@
     const instructionVideo = document.getElementById('instruction-video');
     const downloadLink = document.getElementById('download-link');
 
-    instructionText.innerText = "Caution: Always verify the authenticity of both the provider and the content before downloading from any platform to ensure safety and avoid issues";
+    instructionText.innerText = "Reminder: Always verify the authenticity of both platforms and the content before downloading to ensure safety and avoid potential issues.";
     instructionVideo.src = "https://www.youtube.com/embed/wUNaiJR-6_k"; // Embed link for YouTube
     instructionVideo.style.display = 'block'; // Show iframe
     overlay.style.display = 'block';
