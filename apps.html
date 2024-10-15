@@ -166,6 +166,17 @@ p{
     margin-left: 10px; /* Space between the image and the tag */
     font-weight: bold; /* Make the text bold */
 }
+    
+    @keyframes glow {
+  0% {
+    text-shadow: 0 0 5px yellow, 0 0 10px yellow, 0 0 15px yellow;
+  }
+  100% {
+    text-shadow: 0 0 20px yellow, 0 0 30px yellow, 0 0 40px yellow;
+  }
+}
+
+
     </style>
 </head>
 
@@ -184,8 +195,12 @@ p{
     </header>
 
     <div id="app-list">
-        <div id="notepad-apk" class="app" data-name="notepad.apk">
+        <div class="app" data-name="notepad.apk">
             <div class="app-header">
+             <div style="color: yellow; text-shadow: 0 0 10px yellow; animation: glow 1s infinite alternate;">  <a href="https://www.amazon.com/dp/B0DK1V4CJJ/ref=apps_sf_sta" style="color: yellow; text-decoration: none;">Available on Amazon</a>.
+</div>
+
+
                 <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQWWeMrUmdWFnlixxGyItbWJGXF4n9jChqvaUVJEFSvdLXZ9ceEa631a43Okw2vmvR4wjckLFQsjY_xVAQpobKMeFHG2gq2LPESY7sP8N_VV43A8RyCsFQROsqDnZ2Zz61wPTkNqg1gkU3_0NK3ScRnui1Qaxb1FPQaDZy4iVVUqf0XTU/s1600/notepadlog.jpg" alt="App 1" style="width: 100px; height: auto; display: inline-block;">
                  <span class="offline-tag">Offline Free App</span>
             </div>
@@ -201,6 +216,7 @@ p{
             <button class="action-button latest-button" onclick="showVideo()">Preview</button>
 
             <button onclick="toggleDescription('desc1')">Read More</button>
+            latest updates first come to Amazon!
             <div id="desc1" class="description">
                 <p>notepad. is a simple yet efficient digital diary designed for users who want to capture their thoughts instantly. Whether it's for quick notes or maintaining a daily diary, this app ensures a seamless writing experience without any need to save manually. As soon as you pause or take your hands off the keyboard, the app automatically saves your entries.<p>With notepad., you can easily export your diary entries whenever needed. It also offers the ability to create backups to safeguard your writings, though it's important to note that managing and maintaining backups is the user's responsibility.</p>This offline app is completely free to use and does not require an internet connection, making it ideal for on-the-go note-taking or diary writing without distractions.</p>
                 <button class="download-button" onclick="showPopup()">Download</button>
@@ -221,7 +237,7 @@ p{
     <iframe id="instruction-video" width="300" height="200" style="display:none;" frameborder="0" allowfullscreen></iframe>
     
     <!-- Add the download button here -->
-    <a href="https://omhfdw.sn.files.1drv.com/y4mxmtRysaG2670-yIOQUX4lk9dLfZVrAhrnYsdI0y_rksybaHisvQ9pUamQmE5Xcdb36_MXhBX14BfmeuWV5BJWfaYO5Q4-RZE8pex73dObTEedT3bZBaWMfll6CO-mh6rAYxnhCk8VQ72tsQ-dh2k5gSIkyhoJTJ_wRNs4c_G77oJwazqYXp0-5mBMmyOmbud493liRYeTiDHq4brlX5x1Q" download> <button class="download-button">Download App</button>
+    <a href="https://omi9uw.sn.files.1drv.com/y4ma5pJME9HzevK9AFSpdISiFPJWi5wDtHkYYlC0l9UTFopvJ52uuqyi0hXXcrhqcGatLh-QX2S-GvqAtxptQaVMoQbxTYH2mhXE72jEryOeSRqogfF81J5lsaHzH4NbXBHr_EZaIeF-fJTHLVG3VycfcDSmN0EOuGayR5lk_HOpEfbjp_uQXi0nMNZPzCMuCvCsjYKEjYRTMBnNnUYSETP-w" download> <button class="download-button">Download App</button>
     </a>
 </div>
 
@@ -313,7 +329,6 @@ p{
             document.body.classList.add('loaded');
         });
     </script>
-    
     to know more about this website visit this <a href="info.html">link</a>
     <p align="center"> *initiated @2024*</p>
 
