@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Code Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(circle, #141e30, #243b55); /* LED-like dark background */
+            color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            overflow-y: auto;
+        }
+
+        .code-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.7);
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            height: auto;
+            max-height: 500px; /* Maximum height for larger screens */
+            overflow-y: auto; /* Enable scrolling for longer code */
+            margin-top: 20px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #00ff7f;
+            margin: 0;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #00ff7f;
+            margin-bottom: 20px;
+        }
+
+        .copy-btn {
+            background-color: #00ff7f;
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .copy-btn:hover {
+            background-color: #00cc66;
+        }
+
+        .video-container {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 400px; /* Reduced size for smaller video */
+        }
+
+        iframe {
+            width: 100%;
+            height: 225px; /* Smaller height for the video */
+        }
+
+        @media only screen and (max-width: 600px) {
+    .code-container {
+        width: 95%;
+        padding: 15px;
+        height: 600px; /* Increase the height */
+        max-height: none; /* Remove max-height for mobile */
+    }
+
+    pre {
+        font-size: 0.85rem;
+    }
+
+    h1 {
+        font-size: 1.25rem;
+    }
+
+    .copy-btn {
+        font-size: 0.9rem;
+    }
+
+    iframe {
+        height: 180px; /* Even smaller for mobile screens */
+    }
+}
+  .logo{
+            width: 100px;
+            height: auto;
+            max-width: 100%;
+        }
+   .published {
+            margin-top: 30px;
+            color: orange;
+            cursor: pointer;
+           
+        }
+            /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: black;
+            margin: 5% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgws9AhIndqGeXy2wxVfIZDgYlFDwL-5txGNrLnjODIvHuiImBFW-t7UpBYH5gSXYC0ifyQFlyL8COZrjZ7CpE8-9EQbTkrxWCesnE2PIvKqR4lD39WETf77VsjB_SqLl5bmmbBovAABWtkhY1Uirnnoj26GT7m3Y-KNLz8zgQTkgjTnFo/s1600/logo.png" class="logo"><table>
+  <tr><td><a href="index.html" > <button class="copy-btn">home</button> </a></td>
+    <td> <a href="android.html"> <button class="copy-btn">back</button> </a></td>
+</tr></table>
+    <h1>How to create Video background in skechware (inbuilt)</h1>
+  <p>
+1. The real code with media player controller .
+  </p>
+
+
+👇👇👇👇👇
+    <!-- Code Container -->
+    <div class="code-container" id="code-block">
+        <pre><code id="code-text">
+  
+final VideoView vd = new VideoView(MainActivity.this);
+vd.setLayoutParams(new LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.MATCH_PARENT));
+vd.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.fir));
+vd.setMediaController(new MediaController(this));
+vd.requestFocus();
+vd.start();
+vd.requestFocus();
+vd.start();
+          
+//this layout will conatin your video view
+
+RelativeLayout rl = new RelativeLayout(this);
+
+//this layout will contain your widgets which are to be shown on video
+
+RelativeLayout rl2 = new RelativeLayout(this);
+
+rl2.addView(vd, -1,-1);
+linear1.removeAllViews();
+rl.addView(rl2, -1,-1);
+rl.addView(linear2, -1,-1);
+linear1.addView(rl,-1,-1);
+
+//this property will all the video to be played in full screen
+
+DisplayMetrics metrics = new DisplayMetrics(); getWindowManager().getDefaultDisplay().getMetrics(metrics); android.widget.RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) vd.getLayoutParams(); 
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_TOP, android.widget.RelativeLayout.TRUE);
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_START, android.widget.RelativeLayout.TRUE);
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_END, android.widget.RelativeLayout.TRUE);
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM, android.widget.RelativeLayout.TRUE);
+          vd.requestLayout();
+         </code></pre>
+    </div>
+  
+      <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+
+  <p>
+  The code that used in video background app in youtube:
+👇👇👇👇
+  </p>
+
+  
+      <div class="code-container" id="code2-block">
+        <pre><code id="code2-text">
+          
+final VideoView vd = new VideoView(MainActivity.this);
+vd.setLayoutParams(new LinearLayout.LayoutParams(android.widget.LinearLayout.LayoutParams.MATCH_PARENT, android.widget.LinearLayout.LayoutParams.MATCH_PARENT));
+vd.setVideoURI(Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.fir));
+vd.requestFocus();
+vd.start();
+          
+//this layout will conatin your video view
+  RelativeLayout rl = new RelativeLayout(this);
+//this layout will contain your widgets which are to be shown on video
+
+RelativeLayout rl2 = new RelativeLayout(this);
+
+rl2.addView(vd, -1,-1);
+linear1.removeAllViews();
+rl.addView(rl2, -1,-1);
+rl.addView(linear2, -1,-1);
+linear1.addView(rl,-1,-1);
+
+//this property will all the video to be played in full screen
+
+
+
+DisplayMetrics metrics = new DisplayMetrics(); getWindowManager().getDefaultDisplay().getMetrics(metrics); android.widget.RelativeLayout.LayoutParams params = (android.widget.RelativeLayout.LayoutParams) vd.getLayoutParams(); 
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_TOP, android.widget.RelativeLayout.TRUE);
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_START, android.widget.RelativeLayout.TRUE);
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_END, android.widget.RelativeLayout.TRUE);
+params.addRule(android.widget.RelativeLayout.ALIGN_PARENT_BOTTOM, android.widget.RelativeLayout.TRUE);
+vd.requestLayout(); </code></pre>
+      </div>
+
+
+    <!-- Copy Button -->
+    <button class="copy-btn" onclick="copy1Code()">Copy Code</button>
+Please subscribe.. 
+
+Watch turtorial video below
+
+    <!-- Video Tutorial Section -->
+    <div class="video-container">
+        <h2>Tutorial Video</h2>
+        <iframe src="https://www.youtube.com/embed/DaqfSuWkmR0" title="Video Tutorial" allowfullscreen></iframe>
+    </div>
+  <div class="published" id="publishedText"><center>*VC established site*</center></div>
+    <script>
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable F12 and inspect element
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                e.preventDefault();
+            }
+        });
+
+        // Page load effect
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+             <p>verified content only.for know more about VC visit website info below .Thank you</p>
+        </div>
+    </div>
+    <script>
+        // Function to copy the code
+        function copyCode() {
+            const codeText = document.getElementById('code-text').innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy code: ', err);
+            });
+        }
+  function copy1Code() {
+            const codeText = document.getElementById('code2-text').innerText;
+            navigator.clipboard.writeText(codeText).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy code: ', err);
+            });
+        }
+  
+  var modal = document.getElementById("myModal");
+        var publishedText = document.getElementById("publishedText");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Open the modal when the user clicks the "Published" text
+        publishedText.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Close the modal when the user clicks on <span> (x)
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close the modal when the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+  to know more about website click this <a href="info.html">link</a>
+<p>2024</p>
+</body>
+</html>
