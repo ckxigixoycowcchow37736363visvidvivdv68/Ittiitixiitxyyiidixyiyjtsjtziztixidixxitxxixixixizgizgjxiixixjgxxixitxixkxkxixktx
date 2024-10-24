@@ -1,11 +1,11 @@
 # README for My Website
-subscribe my youtube channel (https://www.youtube.com/@turbozt)
+subscribe my youtube channel [TURBOZT] (https://www.youtube.com/@turbozt)
 Welcome to my website's GitHub repository!
 
 ## About the Website
 
 This website has been developed solely by an individual without any assistance from government or private organizations. It serves as an open platform where you can explore and learn how I built the website from scratch. Whether you're a beginner or a developer looking for inspiration, you are free to dive into the code and understand the structure, techniques, and tools used.
-(turbozt.in)
+[turbozt.in](turbozt.in)
 ## Purpose
 
 The primary goal of this website is to provide a learning resource. Everything here is free to access and intended for educational purposes. You can:
