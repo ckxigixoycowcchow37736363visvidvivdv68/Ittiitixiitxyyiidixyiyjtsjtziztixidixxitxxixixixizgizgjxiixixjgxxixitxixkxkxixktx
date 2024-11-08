@@ -236,10 +236,8 @@ p{
   
     <p id="instruction-text"></p>
     <iframe id="instruction-video" width="300" height="200" style="display:none;" frameborder="0" allowfullscreen></iframe>
+    <button onclick=("downpage.html");>download</button>
     
-    <!-- Add the download button here -->
-    <a href="downpage.html" > <button class="action-button latest-button">Download App</button>
-    </a>
 </div>
 
     <div class="overlay" id="privacy-overlay"></div>
@@ -263,7 +261,7 @@ p{
     const popup = document.getElementById('popup');
     const instructionText = document.getElementById('instruction-text');
     const instructionVideo = document.getElementById('instruction-video');
-    const downloadLink = document.getElementById('download-link');
+    
 
     instructionText.innerText = "Reminder: Always verify the authenticity of both platforms and the content before downloading to ensure safety and avoid potential issues.";
     instructionVideo.src = "https://www.youtube.com/embed/wUNaiJR-6_k"; // Embed link for YouTube
