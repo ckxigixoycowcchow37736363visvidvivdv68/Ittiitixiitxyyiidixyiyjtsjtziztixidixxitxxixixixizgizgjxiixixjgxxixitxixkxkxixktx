@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Download Page</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .header img {
+            width: 120px;
+            height: auto;
+            border-radius: 50%;
+        }
+
+        .banners {
+            width: 90%;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .banner {
+            background-color: #ffeb3b;
+            padding: 10px;
+            text-align: center;
+            color: #333;
+            border-radius: 8px;
+            font-size: 1em;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .options-panels {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 90%;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-4px);
+        }
+
+        .panel h3 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .panel p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .panel button {
+            background-color: #ff5722;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .panel button:hover {
+            background-color: #e64a19;
+        }
+
+        .panel .ads {
+            margin: 15px 0;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #333;
+        }
+
+        @media (min-width: 768px) {
+            .banners {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .options-panels {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .panel {
+                width: 30%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+   <div class="options-panels">
+    <div class="panel">
+        <h3>Download Now on Play Store</h3>
+        <a href="https://play.google.com/store/apps/details?id=turbozt.notepad" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
+                 alt="Get it on Google Play"
+                 style="width:180px; margin-top:10px;">
+        </a>
+    </div>
+
+    <div class="panel">
+        <h3>Join Our Telegram Channel 💬</h3>
+        <p>Get direct access by joining our Telegram channel.</p>
+        <button onclick="window.location.href='https://t.me/turboztspot/2'">Join Telegram</button>
+    </div>
+
+    <div class="panel">
+        <h3>Follow Us on Instagram 📸</h3>
+        <button onclick="window.location.href='https://instagram.com/turbozt.online'">Follow on Instagram</button>
+    </div>
+</div>
+</body>
+</html>
