@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Champions Leaderboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #1e1e2f;
+      color: white;
+      padding: 20px 0;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .form-button {
+      background-color: #007bff;
+      color: white;
+      padding: 14px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 20px 0;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .leaderboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .player {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .player img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 10px;
+      border: 2px solid #007bff;
+    }
+
+    .player h3 {
+      margin: 5px 0 3px;
+      font-size: 18px;
+    }
+
+    .player p {
+      margin: 2px 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .score {
+      font-size: 16px;
+      font-weight: bold;
+      color: #28a745;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🏆 Champions Leaderboard</h1>
+  </header>
+
+  <div class="container">
+    <a class="form-button" href="https://docs.google.com/forms/d/e/1FAIpQLSe9eQFDe0s3L2B7_t_lS06PcuBTjjxsMFmQmGFvrcq1Wfp9oQ/viewform?usp=dialog" target="_blank">Submit Your Score</a>
+
+    <div class="leaderboard">
+
+      <!-- Player 1 -->
+      <div class="player">
+        <img src="https://drive.google.com/file/d/1AvaHKW_kIy_FTFhDcwcIAZKhrlPpfPWH/view?usp=drivesdk" alt="Player 1">
+        <h3>Buster</h3>
+        <p>International</p>
+        <div class="score">100000</div>
+      </div>
+
+      <!-- Player 2 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 2">
+        <h3>Sofia L.</h3>
+        <p>Brazil 🇧🇷</p>
+        <div class="score">439,200</div>
+      </div>
+
+      <!-- Player 3 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 3">
+        <h3>Kento Sato</h3>
+        <p>Japan 🇯🇵</p>
+        <div class="score">420,150</div>
+      </div>
+
+      <!-- Player 4 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 4">
+        <h3>Lina R.</h3>
+        <p>Germany 🇩🇪</p>
+        <div class="score">403,700</div>
+      </div>
+
+      <!-- Player 5 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 5">
+        <h3>Michael Z.</h3>
+        <p>USA 🇺🇸</p>
+        <div class="score">388,800</div>
+      </div>
+
+      <!-- Player 6 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 6">
+        <h3>Fatima Noor</h3>
+        <p>Pakistan 🇵🇰</p>
+        <div class="score">372,110</div>
+      </div>
+
+      <!-- Player 7 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 7">
+        <h3>Leo Wang</h3>
+        <p>China 🇨🇳</p>
+        <div class="score">361,940</div>
+      </div>
+
+      <!-- Player 8 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 8">
+        <h3>Alina S.</h3>
+        <p>Russia 🇷🇺</p>
+        <div class="score">348,560</div>
+      </div>
+
+      <!-- Player 9 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 9">
+        <h3>Mateo R.</h3>
+        <p>Mexico 🇲🇽</p>
+        <div class="score">337,300</div>
+      </div>
+
+      <!-- Player 10 -->
+      <div class="player">
+        <img src="https://via.placeholder.com/80" alt="Player 10">
+        <h3>Neha Sharma</h3>
+        <p>India 🇮🇳</p>
+        <div class="score">325,400</div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
