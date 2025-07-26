@@ -12,7 +12,7 @@ canvas{max-width:400px;margin:30px auto;display:block;}
         <img src="t.jpg" alt="Tiger">
         <div>
             <strong>#1 Jid</strong><br>
-            🌍 Indie<br>
+            🌍 India<br>
             💯 23400 | 🐾 Tiger
         </div>
     </div>
@@ -62,6 +62,15 @@ canvas{max-width:400px;margin:30px auto;display:block;}
         </div>
     </div>
     
+    <div class="player">
+        <img src="c.jpg" alt="Cat">
+        <div>
+            <strong>#7 Gt</strong><br>
+            🌍 <br>
+            💯 0 | 🐾 Cat
+        </div>
+    </div>
+    
 </div><h2>Overall Teams</h2>
 <canvas id="pieChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -70,10 +79,10 @@ const ctx = document.getElementById('pieChart').getContext('2d');
 new Chart(ctx, {
     type: 'pie',
     data: {
-        labels: ["Tiger", "Cat", "Lion", "Dog"],
+        labels: ["Cat", "Tiger", "Lion", "Dog"],
         datasets: [{
             label: 'Animals',
-            data: [16.67, 33.33, 33.33, 16.67],
+            data: [42.86, 14.29, 28.57, 14.29],
             backgroundColor: ['#ffb74d', '#81c784', '#64b5f6', '#e57373']
         }]
     }
