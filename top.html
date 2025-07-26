@@ -63,9 +63,18 @@ canvas{max-width:400px;margin:30px auto;display:block;}
     </div>
     
     <div class="player">
+        <img src="t.jpg" alt="Tiger">
+        <div>
+            <strong>#7 Tkge</strong><br>
+            🌍 Asia<br>
+            💯 0 | 🐾 Tiger
+        </div>
+    </div>
+    
+    <div class="player">
         <img src="c.jpg" alt="Cat">
         <div>
-            <strong>#7 Gt</strong><br>
+            <strong>#8 Gt</strong><br>
             🌍 <br>
             💯 0 | 🐾 Cat
         </div>
@@ -79,10 +88,10 @@ const ctx = document.getElementById('pieChart').getContext('2d');
 new Chart(ctx, {
     type: 'pie',
     data: {
-        labels: ["Cat", "Tiger", "Lion", "Dog"],
+        labels: ["Tiger", "Cat", "Lion", "Dog"],
         datasets: [{
             label: 'Animals',
-            data: [42.86, 14.29, 28.57, 14.29],
+            data: [25.0, 37.5, 25.0, 12.5],
             backgroundColor: ['#ffb74d', '#81c784', '#64b5f6', '#e57373']
         }]
     }
