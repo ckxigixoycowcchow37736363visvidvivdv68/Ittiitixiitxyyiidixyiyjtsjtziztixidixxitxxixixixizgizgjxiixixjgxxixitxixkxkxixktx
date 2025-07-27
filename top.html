@@ -12,29 +12,38 @@ ul{text-align:center;list-style:none;padding:0;}
 <div class="leaderboard">
 
     <div class="player">
-        <img src="t.jpg" alt="Tiger">
+        <img src="d.jpg" alt="Dog">
         <div>
-            <strong>#1 Anzi</strong><br>
-            🌍 North America<br>
-            💯 9350 | 🐾 Tiger
+            <strong>#1 Fh</strong><br>
+            🌍 Africa<br>
+            💯 6150 | 🐾 Dog
         </div>
     </div>
     
     <div class="player">
-        <img src="l.jpg" alt="Lion">
+        <img src="d.jpg" alt="Dog">
         <div>
-            <strong>#2 Anzif</strong><br>
-            🌍 South America<br>
-            💯 7000 | 🐾 Lion
-        </div>
-    </div>
-    
-    <div class="player">
-        <img src="t.jpg" alt="Tiger">
-        <div>
-            <strong>#3 Ali</strong><br>
+            <strong>#2 Mik</strong><br>
             🌍 Asia<br>
-            💯 5550 | 🐾 Tiger
+            💯 6150 | 🐾 Dog
+        </div>
+    </div>
+    
+    <div class="player">
+        <img src="t.jpg" alt="Tiger">
+        <div>
+            <strong>#3 Akit</strong><br>
+            🌍 Africa<br>
+            💯 6150 | 🐾 Tiger
+        </div>
+    </div>
+    
+    <div class="player">
+        <img src="d.jpg" alt="Dog">
+        <div>
+            <strong>#4 Nin</strong><br>
+            🌍 North America<br>
+            💯 0 | 🐾 Dog
         </div>
     </div>
     
@@ -43,7 +52,7 @@ ul{text-align:center;list-style:none;padding:0;}
 
 <h2>🌍 Players </h2>
 <ul>
-<li><strong>North America</strong>: 1 players</li><li><strong>South America</strong>: 1 players</li><li><strong>Asia</strong>: 1 players</li>
+<li><strong>Africa</strong>: 2 players</li><li><strong>Asia</strong>: 1 players</li><li><strong>North America</strong>: 1 players</li>
 </ul><canvas id="barChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -51,10 +60,10 @@ const pieCtx = document.getElementById('pieChart').getContext('2d');
 new Chart(pieCtx, {
     type: 'pie',
     data: {
-        labels: ["Tiger", "Lion"],
+        labels: ["Dog", "Tiger"],
         datasets: [{
             label: 'Animals',
-            data: [66.67, 33.33],
+            data: [75.0, 25.0],
             backgroundColor: ['#ffb74d', '#81c784', '#64b5f6', '#e57373']
         }]
     }
@@ -64,10 +73,10 @@ const barCtx = document.getElementById('barChart').getContext('2d');
 new Chart(barCtx, {
     type: 'bar',
     data: {
-        labels: ["North America", "South America", "Asia"],
+        labels: ["Africa", "Asia", "North America"],
         datasets: [{
             label: 'Players per Region',
-            data: [1, 1, 1],
+            data: [2, 1, 1],
             backgroundColor: '#4db6ac'
         }]
     },
