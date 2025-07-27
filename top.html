@@ -12,54 +12,9 @@ ul{text-align:center;list-style:none;padding:0;}
 <div class="leaderboard">
 
     <div class="player">
-        <img src="t.jpg" alt="Tiger">
-        <div>
-            <strong>#1 Jid</strong><br>
-            🌍 India<br>
-            💯 23400 | 🐾 Tiger
-        </div>
-    </div>
-    
-    <div class="player">
         <img src="c.jpg" alt="Cat">
         <div>
-            <strong>#2 H</strong><br>
-            🌍 H<br>
-            💯 23400 | 🐾 Cat
-        </div>
-    </div>
-    
-    <div class="player">
-        <img src="l.jpg" alt="Lion">
-        <div>
-            <strong>#3 Sjk</strong><br>
-            🌍 Dhi<br>
-            💯 23400 | 🐾 Lion
-        </div>
-    </div>
-    
-    <div class="player">
-        <img src="c.jpg" alt="Cat">
-        <div>
-            <strong>#4 Jd</strong><br>
-            🌍 Du<br>
-            💯 23400 | 🐾 Cat
-        </div>
-    </div>
-    
-    <div class="player">
-        <img src="d.jpg" alt="Dog">
-        <div>
-            <strong>#5 Jkd</strong><br>
-            🌍 Jd<br>
-            💯 23400 | 🐾 Dog
-        </div>
-    </div>
-    
-    <div class="player">
-        <img src="c.jpg" alt="Cat">
-        <div>
-            <strong>#6 Yin</strong><br>
+            <strong>#1 Yin</strong><br>
             🌍 Asia<br>
             💯 8800 | 🐾 Cat
         </div>
@@ -68,56 +23,36 @@ ul{text-align:center;list-style:none;padding:0;}
     <div class="player">
         <img src="d.jpg" alt="Dog">
         <div>
-            <strong>#7 Fin</strong><br>
+            <strong>#2 Fin</strong><br>
             🌍 Asia<br>
             💯 8800 | 🐾 Dog
         </div>
     </div>
     
     <div class="player">
-        <img src="l.jpg" alt="Lion">
-        <div>
-            <strong>#8 Ji</strong><br>
-            🌍 Po<br>
-            💯 6100 | 🐾 Lion
-        </div>
-    </div>
-    
-    <div class="player">
         <img src="t.jpg" alt="Tiger">
         <div>
-            <strong>#9 Tkge</strong><br>
+            <strong>#3 Tkge</strong><br>
             🌍 Asia<br>
             💯 0 | 🐾 Tiger
-        </div>
-    </div>
-    
-    <div class="player">
-        <img src="c.jpg" alt="Cat">
-        <div>
-            <strong>#10 Gt</strong><br>
-            🌍 <br>
-            💯 0 | 🐾 Cat
         </div>
     </div>
     
 </div><h2>🐾 Overall Animal Teams</h2>
 <canvas id="pieChart"></canvas>
 
-<h2>🌍 Player Regions</h2>
-<ul>
-<li><strong>Other</strong>: 9 players</li><li><strong>Asia</strong>: 1 players</li>
-</ul><canvas id="barChart"></canvas>
+<h2>🌍 Players by Continent</h2>
+<canvas id="barChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const pieCtx = document.getElementById('pieChart').getContext('2d');
 new Chart(pieCtx, {
     type: 'pie',
     data: {
-        labels: ["Cat", "Dog", "Tiger", "Lion"],
+        labels: ["Cat", "Dog", "Tiger"],
         datasets: [{
             label: 'Animals',
-            data: [40.0, 20.0, 20.0, 20.0],
+            data: [33.33, 33.33, 33.33],
             backgroundColor: ['#ffb74d', '#81c784', '#64b5f6', '#e57373']
         }]
     }
@@ -127,10 +62,10 @@ const barCtx = document.getElementById('barChart').getContext('2d');
 new Chart(barCtx, {
     type: 'bar',
     data: {
-        labels: ["Other", "Asia"],
+        labels: ["Asia"],
         datasets: [{
             label: 'Players per Region',
-            data: [9, 1],
+            data: [3],
             backgroundColor: '#4db6ac'
         }]
     },
