@@ -11,12 +11,21 @@ ul{text-align:center;list-style:none;padding:0;}
 <h1>🏆 2025 September Buster Champions</h1>
 <div class="leaderboard">
 
+    <div class="player">
+        <img src="t.jpg" alt="Tiger">
+        <div>
+            <strong>#1 Ali</strong><br>
+            🌍 Asia<br>
+            💯 5550 | 🐾 Tiger
+        </div>
+    </div>
+    
 </div><h2>🐾 Overall Animal Teams</h2>
 <canvas id="pieChart"></canvas>
 
 <h2>🌍 Players </h2>
 <ul>
-
+<li><strong>Asia</strong>: 1 players</li>
 </ul><canvas id="barChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -24,10 +33,10 @@ const pieCtx = document.getElementById('pieChart').getContext('2d');
 new Chart(pieCtx, {
     type: 'pie',
     data: {
-        labels: [],
+        labels: ["Tiger"],
         datasets: [{
             label: 'Animals',
-            data: [],
+            data: [100.0],
             backgroundColor: ['#ffb74d', '#81c784', '#64b5f6', '#e57373']
         }]
     }
@@ -37,10 +46,10 @@ const barCtx = document.getElementById('barChart').getContext('2d');
 new Chart(barCtx, {
     type: 'bar',
     data: {
-        labels: [],
+        labels: ["Asia"],
         datasets: [{
             label: 'Players per Region',
-            data: [],
+            data: [1],
             backgroundColor: '#4db6ac'
         }]
     },
