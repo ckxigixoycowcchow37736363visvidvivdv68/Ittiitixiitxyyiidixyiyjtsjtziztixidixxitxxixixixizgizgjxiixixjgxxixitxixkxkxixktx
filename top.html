@@ -6,7 +6,10 @@ h1,h2{text-align:center;}
 .player{display:flex;align-items:center;margin:10px;background:#fff;padding:10px;border-radius:12px;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
 .player img{width:60px;height:60px;border-radius:50%;margin-right:15px;object-fit:cover;}
 canvas{max-width:600px;margin:30px auto;display:block;}
-</style></head><body><h1>🏆 2025 September Buster Champions</h1><div class="leaderboard">
+ul{text-align:center;list-style:none;padding:0;}
+</style></head><body>
+<h1>🏆 2025 September Buster Champions</h1>
+<div class="leaderboard">
 
     <div class="player">
         <img src="t.jpg" alt="Tiger">
@@ -98,12 +101,13 @@ canvas{max-width:600px;margin:30px auto;display:block;}
         </div>
     </div>
     
-</div><h2>Overall Animal Teams</h2>
+</div><h2>🐾 Overall Animal Teams</h2>
 <canvas id="pieChart"></canvas>
 
-<h2>Player Regions</h2>
-<canvas id="barChart"></canvas>
-
+<h2>🌍 Player Regions</h2>
+<ul>
+<li><strong>Other</strong>: 9 players</li><li><strong>Asia</strong>: 1 players</li>
+</ul><canvas id="barChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const pieCtx = document.getElementById('pieChart').getContext('2d');
@@ -123,10 +127,10 @@ const barCtx = document.getElementById('barChart').getContext('2d');
 new Chart(barCtx, {
     type: 'bar',
     data: {
-        labels: ["Asia", "", "India", "H", "Dhi", "Du", "Jd", "Po"],
+        labels: ["Other", "Asia"],
         datasets: [{
             label: 'Players per Region',
-            data: [3, 1, 1, 1, 1, 1, 1, 1],
+            data: [9, 1],
             backgroundColor: '#4db6ac'
         }]
     },
