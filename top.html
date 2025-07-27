@@ -106,7 +106,7 @@ ul{text-align:center;list-style:none;padding:0;}
 
 <h2>🌍 Player Regions</h2>
 <ul>
-<li><strong>Other</strong>: 9 players</li><li><strong>Asia</strong>: 1 players</li>
+<li><strong>('Asia', 'Other')</strong>: 3 players</li><li><strong>('', 'Other')</strong>: 1 players</li><li><strong>('India', 'Other')</strong>: 1 players</li><li><strong>('H', 'Other')</strong>: 1 players</li><li><strong>('Dhi', 'Other')</strong>: 1 players</li><li><strong>('Du', 'Other')</strong>: 1 players</li><li><strong>('Jd', 'Other')</strong>: 1 players</li><li><strong>('Po', 'Other')</strong>: 1 players</li>
 </ul><canvas id="barChart"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -127,10 +127,10 @@ const barCtx = document.getElementById('barChart').getContext('2d');
 new Chart(barCtx, {
     type: 'bar',
     data: {
-        labels: ["Other", "Asia"],
+        labels: [["Asia", "Other"], ["", "Other"], ["India", "Other"], ["H", "Other"], ["Dhi", "Other"], ["Du", "Other"], ["Jd", "Other"], ["Po", "Other"]],
         datasets: [{
             label: 'Players per Region',
-            data: [9, 1],
+            data: [3, 1, 1, 1, 1, 1, 1, 1],
             backgroundColor: '#4db6ac'
         }]
     },
