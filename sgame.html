@@ -1,7 +1,56 @@
+<!DOCTYPE html>
 <html>
-  <head>game
-  </head>
-  <body>
-    testing phase
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>Sacred Box Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 10px;
+    }
+    .card {
+      width: 120px;
+      height: 160px;
+      background: white;
+      margin: 8px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    // Telegram Web App integration
+    let tg = window.Telegram.WebApp;
+    tg.expand(); // makes it full-screen in Telegram
+
+    // Create 12 demo cards
+    for (let i = 1; i <= 12; i++) {
+      let card = document.createElement("div");
+      card.className = "card";
+      card.innerText = "Card " + i;
+      card.onclick = () => {
+        alert("Pay 10 SOUL to unlock " + card.innerText);
+        // In real app, trigger token payment logic here
+      };
+      document.body.appendChild(card);
+    }
+  </script>
+</body>
 </html>
