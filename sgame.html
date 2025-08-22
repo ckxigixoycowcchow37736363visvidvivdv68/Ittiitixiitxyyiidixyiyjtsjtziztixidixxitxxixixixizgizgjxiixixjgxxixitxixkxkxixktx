@@ -1,136 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sacred Box Card Shop</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sacred Box — Card Shop</title>
+<meta name="color-scheme" content="dark light" />
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-    margin: 0;
-    padding: 0;
-    text-align: center;
+  :root{
+    --bg:#0f1115;--panel:#161a22;--text:#e9edf1;--muted:#96a2b4;--brand:#2ea6ff;--shadow:0 10px 25px rgba(0,0,0,.25);--r:16px
   }
-  h1 {
-    background: #6200ea;
-    color: #fff;
-    padding: 1rem;
-    margin: 0;
-  }
-  #balance {
-    font-size: 1.2rem;
-    margin: 1rem 0;
-  }
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-    padding: 1rem;
-  }
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .card img {
-    max-width: 100%;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
-  }
-  .card button {
-    background: #6200ea;
-    color: #fff;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .card button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-  }
+  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial}
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  header{position:sticky;top:0;background:linear-gradient(180deg,rgba(15,17,21,.8),rgba(15,17,21,0));backdrop-filter:blur(6px);z-index:5}
+  .row{display:flex;align-items:center;gap:10px;justify-content:space-between}
+  .title{font-weight:900;letter-spacing:.3px}
+  .pill{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid rgba(255,255,255,.08);padding:8px 12px;border-radius:999px;box-shadow:var(--shadow);font-weight:800}
+  .coin{width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#fff7b1,#f7c948 60%,#b98a00)}
+  .tabs{display:flex;gap:10px;margin-top:10px}.tab{flex:1;text-align:center;background:var(--panel);border:1px solid rgba(255,255,255,.08);padding:10px;border-radius:12px;cursor:pointer;user-select:none;opacity:.85;font-weight:800}.tab.active{opacity:1;outline:2px solid var(--brand)}
+  .grid{display:grid;gap:12px;margin-top:14px;grid-template-columns:repeat(2,1fr)}@media(min-width:680px){.grid{grid-template-columns:repeat(3,1fr)}}@media(min-width:980px){.grid{grid-template-columns:repeat(4,1fr)}}
+  .card{position:relative;overflow:hidden;border-radius:var(--r);background:linear-gradient(145deg,#1b2030,#0f1320);border:1px solid rgba(255,255,255,.07);box-shadow:var(--shadow)}
+  .thumb{aspect-ratio:4/5;display:grid;place-items:center;font-size:56px;background:radial-gradient(100% 100% at 50% 0%,rgba(255,255,255,.08),rgba(255,255,255,0) 60%),linear-gradient(160deg,rgba(46,166,255,.18),rgba(46,166,255,0))}
+  .meta{padding:12px;display:grid;gap:6px}.name{font-weight:900}.rarity{font-size:12px;color:var(--muted)}
+  .btn{margin-top:6px;width:100%;padding:10px 12px;border:none;border-radius:12px;background:var(--brand);color:#001221;font-weight:900;cursor:pointer;box-shadow:0 8px 24px rgba(46,166,255,.35)}.btn[disabled]{opacity:.5;cursor:not-allowed}
+  .ownedTag{position:absolute;top:8px;left:8px;background:rgba(34,197,94,.95);color:#05240f;padding:6px 10px;border-radius:999px;font-weight:900;font-size:12px}
+  .empty{opacity:.75;text-align:center;padding:36px;border:1px dashed rgba(255,255,255,.1);border-radius:16px;background:rgba(255,255,255,.02)}
+  .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:rgba(28,35,50,.95);border:1px solid rgba(255,255,255,.08);padding:10px 14px;border-radius:12px;display:none;z-index:10}
 </style>
 </head>
 <body>
-  <h1>Sacred Box Card Shop</h1>
-  <div id="balance">Loading balance...</div>
-  <div class="card-grid" id="cards"></div>
+  <div class="wrap">
+    <header>
+      <div class="row">
+        <div class="title">Sacred Box — Card Shop</div>
+        <div class="pill" title="Your balance"><div class="coin"></div><span id="balance">0</span><span style="font-weight:900">SOUL</span></div>
+      </div>
+      <div class="tabs">
+        <div class="tab active" data-tab="shop">Shop</div>
+        <div class="tab" data-tab="owned">My Cards</div>
+      </div>
+    </header>
 
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <main id="view-shop"><div id="shopGrid" class="grid"></div></main>
+    <main id="view-owned" style="display:none"><div id="ownedWrap"></div></main>
+  </div>
+  <div id="toast" class="toast"></div>
+
 <script>
-const API_URL = "https://turbozt.in/api"; // Change if needed
-const tg = window.Telegram.WebApp;
-tg.expand(); // make full screen
-const tg_id = tg.initDataUnsafe?.user?.id || null;
+const API_URL = "https://turbozt.in/api";  // <- your reverse-proxy to Gunicorn
+const tg = window.Telegram?.WebApp;
+tg?.expand();
 
-async function loadBalance() {
-  try {
-    const res = await fetch(`${API_URL}/balance/${tg_id}`);
-    const data = await res.json();
-    document.getElementById("balance").textContent = "SOUL Balance: " + data.balance;
-  } catch (err) {
-    document.getElementById("balance").textContent = "Balance: error";
-  }
+const tg_id = tg?.initDataUnsafe?.user?.id ?? null;
+if (!tg_id) {
+  alert("Open this page from your Telegram bot (Web App) so we can read your Telegram ID.");
 }
 
-async function loadCards() {
-  try {
-    const res = await fetch(`${API_URL}/cards`);
-    const cards = await res.json();
-    const ownedRes = await fetch(`${API_URL}/owned/${tg_id}`);
-    const ownedData = await ownedRes.json();
-    const owned = new Set(ownedData.owned);
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(el._t);el._t=setTimeout(()=>el.style.display='none',1500);}
+function rarityBadge(r){const map={Common:'#94a3b8',Uncommon:'#22d3ee',Rare:'#a78bfa',Epic:'#f59e0b'};return `<span class="rarity" style="color:${map[r]||'#96a2b4'}">${r}</span>`;}
 
-    const container = document.getElementById("cards");
-    container.innerHTML = "";
+let CARDS=[]; let OWNED=new Set();
 
-    cards.forEach(card => {
-      const div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
-        <img src="${card.image_url}" alt="${card.name}">
-        <h3>${card.name}</h3>
-        <p>Cost: ${card.cost} SOUL</p>
-        <button ${owned.has(card.id) ? "disabled" : ""}>
-          ${owned.has(card.id) ? "Owned" : "Buy"}
-        </button>
-      `;
-      const btn = div.querySelector("button");
-      btn.addEventListener("click", () => buyCard(card.id));
-      container.appendChild(div);
-    });
-  } catch (err) {
-    document.getElementById("cards").innerHTML = "<p>Error loading cards.</p>";
-  }
+async function fetchJSON(url, opts){const r=await fetch(url, opts); if(!r.ok) throw new Error(await r.text()); return r.json();}
+
+async function loadAll(){
+  const [cards, balObj, ownedObj] = await Promise.all([
+    fetchJSON(`${API_URL}/cards`),
+    fetchJSON(`${API_URL}/balance/${tg_id}`),
+    fetchJSON(`${API_URL}/owned/${tg_id}`)
+  ]);
+  CARDS = cards; OWNED = new Set(ownedObj.owned||[]);
+  document.getElementById('balance').textContent = balObj.balance;
+  renderShop(); if (currentTab==='owned') renderOwned();
 }
 
-async function buyCard(card_id) {
-  try {
-    const res = await fetch(`${API_URL}/buy`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ tg_id, card_id })
-    });
-    const data = await res.json();
-    if (data.status === "ok") {
-      await loadBalance();
-      await loadCards();
-      alert("Card purchased!");
-    } else {
-      alert("Purchase failed: " + data.message);
+function renderShop(){
+  const grid = document.getElementById('shopGrid'); grid.innerHTML='';
+  CARDS.forEach(card=>{
+    const isOwned = OWNED.has(card.id);
+    const c = document.createElement('div'); c.className='card';
+    c.innerHTML = `
+      ${isOwned?'<div class="ownedTag">Owned</div>':''}
+      <div class="thumb" aria-label="${card.name}">${card.emoji||'🎴'}</div>
+      <div class="meta">
+        <div class="name">${card.name}</div>
+        <div>${rarityBadge(card.rarity)}</div>
+        <div style="display:flex;align-items:center;gap:8px;font-weight:900"><div class="coin" style="width:16px;height:16px"></div> ${card.price} SOUL</div>
+        <button class="btn" data-id="${card.id}" ${isOwned?'disabled':''}>${isOwned?'Owned':'Buy'}</button>
+      </div>`;
+    grid.appendChild(c);
+  });
+}
+
+function renderOwned(){
+  const wrap = document.getElementById('ownedWrap');
+  const ownedCards = CARDS.filter(c=>OWNED.has(c.id));
+  if (!ownedCards.length){ wrap.innerHTML = `<div class="empty">No cards yet. Buy from the <b>Shop</b>.</div>`; return; }
+  const g = document.createElement('div'); g.className='grid';
+  ownedCards.forEach(card=>{
+    const d=document.createElement('div'); d.className='card';
+    d.innerHTML = `
+      <div class="ownedTag">Owned</div>
+      <div class="thumb">${card.emoji||'🎴'}</div>
+      <div class="meta"><div class="name">${card.name}</div><div>${rarityBadge(card.rarity)}</div></div>`;
+    g.appendChild(d);
+  });
+  wrap.innerHTML=''; wrap.appendChild(g);
+}
+
+document.addEventListener('click', async (e)=>{
+  const tab = e.target.closest('.tab'); if (tab) switchTab(tab.dataset.tab);
+  const buyBtn = e.target.closest('button.btn[data-id]');
+  if (buyBtn){
+    const id = buyBtn.getAttribute('data-id');
+    try{
+      const res = await fetchJSON(`${API_URL}/buy`, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ tg_id, card_id:id })
+      });
+      toast(`Purchased: ${res.card.name}`);
+      document.getElementById('balance').textContent = res.new_balance;
+      OWNED.add(id); renderShop(); if (currentTab==='owned') renderOwned();
+    }catch(err){
+      let msg = 'Purchase failed';
+      try { const j = JSON.parse(err.message); msg = j.message || j.error || msg; } catch {}
+      toast(msg);
     }
-  } catch (err) {
-    alert("Network error.");
   }
+});
+
+let currentTab = 'shop';
+function switchTab(which){
+  currentTab = which;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===which));
+  document.getElementById('view-shop').style.display = which==='shop' ? 'block':'none';
+  document.getElementById('view-owned').style.display = which==='owned' ? 'block':'none';
+  if (which==='owned') renderOwned();
 }
 
-loadBalance();
-loadCards();
+(async ()=>{
+  try { await loadAll(); } catch(e){ toast('Error loading. Make sure you opened via Telegram.'); }
+})();
 </script>
 </body>
 </html>
