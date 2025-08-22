@@ -3,62 +3,134 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Soul Bank Game</title>
+<title>Sacred Box Card Shop</title>
 <style>
-body { font-family: Arial; background: #f5f5f5; text-align: center; padding: 50px; }
-#balance { font-size: 24px; margin-bottom: 20px; }
-button { padding: 10px 20px; font-size: 18px; cursor: pointer; margin: 5px; }
+  body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  h1 {
+    background: #6200ea;
+    color: #fff;
+    padding: 1rem;
+    margin: 0;
+  }
+  #balance {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+  }
+  .card button {
+    background: #6200ea;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .card button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
 </style>
 </head>
 <body>
+  <h1>Sacred Box Card Shop</h1>
+  <div id="balance">Loading balance...</div>
+  <div class="card-grid" id="cards"></div>
 
-<h1>💎 Soul Bank Game</h1>
-<div id="balance">Balance: Loading...</div>
-
-<button onclick="buyCard(50)">Buy Card (50 SOUL)</button>
-<button onclick="buyCard(100)">Buy Card (100 SOUL)</button>
-<button onclick="refreshBalance()">Refresh Balance</button>
-
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
-const USER_ID = 12345; // Example user id, change per user
-const BASE_URL = "http://0.0.0.0:5001"; // Replace with Termux IP
+const API_URL = "https://turbozt.in/api"; // Change if needed
+const tg = window.Telegram.WebApp;
+tg.expand(); // make full screen
+const tg_id = tg.initDataUnsafe?.user?.id || null;
 
-async function refreshBalance() {
-    try {
-        const res = await fetch(`${BASE_URL}/balance?user_id=${USER_ID}`);
-        const data = await res.json();
-        if(data.balance !== undefined){
-            document.getElementById("balance").innerText = `Balance: ${data.balance} SOUL`;
-        } else {
-            document.getElementById("balance").innerText = `Error: ${data.error}`;
-        }
-    } catch(e) {
-        document.getElementById("balance").innerText = "Error connecting to server";
-    }
+async function loadBalance() {
+  try {
+    const res = await fetch(`${API_URL}/balance/${tg_id}`);
+    const data = await res.json();
+    document.getElementById("balance").textContent = "SOUL Balance: " + data.balance;
+  } catch (err) {
+    document.getElementById("balance").textContent = "Balance: error";
+  }
 }
 
-async function buyCard(amount) {
-    try {
-        const res = await fetch(`${BASE_URL}/deduct`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_id: USER_ID, amount: amount })
-        });
-        const data = await res.json();
-        if(data.new_balance !== undefined){
-            alert(`✅ Card bought! New Balance: ${data.new_balance}`);
-            refreshBalance();
-        } else {
-            alert(`⚠️ Error: ${data.error}`);
-        }
-    } catch(e) {
-        alert("⚠️ Connection error");
-    }
+async function loadCards() {
+  try {
+    const res = await fetch(`${API_URL}/cards`);
+    const cards = await res.json();
+    const ownedRes = await fetch(`${API_URL}/owned/${tg_id}`);
+    const ownedData = await ownedRes.json();
+    const owned = new Set(ownedData.owned);
+
+    const container = document.getElementById("cards");
+    container.innerHTML = "";
+
+    cards.forEach(card => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <img src="${card.image_url}" alt="${card.name}">
+        <h3>${card.name}</h3>
+        <p>Cost: ${card.cost} SOUL</p>
+        <button ${owned.has(card.id) ? "disabled" : ""}>
+          ${owned.has(card.id) ? "Owned" : "Buy"}
+        </button>
+      `;
+      const btn = div.querySelector("button");
+      btn.addEventListener("click", () => buyCard(card.id));
+      container.appendChild(div);
+    });
+  } catch (err) {
+    document.getElementById("cards").innerHTML = "<p>Error loading cards.</p>";
+  }
 }
 
-// Initial load
-refreshBalance();
+async function buyCard(card_id) {
+  try {
+    const res = await fetch(`${API_URL}/buy`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ tg_id, card_id })
+    });
+    const data = await res.json();
+    if (data.status === "ok") {
+      await loadBalance();
+      await loadCards();
+      alert("Card purchased!");
+    } else {
+      alert("Purchase failed: " + data.message);
+    }
+  } catch (err) {
+    alert("Network error.");
+  }
+}
+
+loadBalance();
+loadCards();
 </script>
-
 </body>
 </html>
