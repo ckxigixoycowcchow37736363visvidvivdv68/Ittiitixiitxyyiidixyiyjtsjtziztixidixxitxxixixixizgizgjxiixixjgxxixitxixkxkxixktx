@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turbozt - Updated Games</title>
+  <style>
+    /* --- Global & Background --- */
+    body {
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      background: radial-gradient(circle at top, #0d0d0d, #000 80%);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 1s ease;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    img.logo {
+      width: 140px;
+      height: auto;
+      filter: drop-shadow(0 0 10px #ff9900);
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-top: 15px;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #ff9900, #ffcc00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      text-shadow: 0 0 15px rgba(255, 200, 0, 0.4);
+    }
+
+    .center-title {
+      margin: 20px 0 40px;
+      font-size: 20px;
+      color: #ccc;
+      letter-spacing: 2px;
+      text-shadow: 0 0 5px #ffcc00;
+    }
+
+    /* --- Project Blocks --- */
+    h2 {
+      font-size: 20px;
+      color: #fff;
+      background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 15px 0;
+      width: 90%;
+      max-width: 700px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(255, 165, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    h2:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 200, 0, 0.6);
+    }
+
+    h2 center {
+      color: #00ff9d;
+      font-weight: bold;
+    }
+
+    /* --- Progress Bars --- */
+    .progress {
+      background: #222;
+      border-radius: 10px;
+      height: 12px;
+      width: 90%;
+      max-width: 700px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      background: linear-gradient(90deg, #00ffcc, #00ff99);
+      height: 100%;
+      width: 100%;
+      animation: glow 1.5s infinite alternate;
+      box-shadow: 0 0 20px #00ffcc;
+    }
+
+    .loading-bar {
+      background: linear-gradient(90deg, #ffcc00, #ff6600);
+      height: 100%;
+      width: 40%;
+      animation: pulse 2s infinite ease-in-out;
+      box-shadow: 0 0 15px #ff9900;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #00ffcc; }
+      to { box-shadow: 0 0 25px #00ffaa; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { width: 40%; opacity: 0.7; }
+      50% { width: 80%; opacity: 1; }
+    }
+
+    /* --- Info Link --- */
+    .info-link {
+      color: #ffcc00;
+      margin-top: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(255, 200, 0, 0.6);
+      display: none;
+    }
+
+    /* --- Modal --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-content {
+      background: #111;
+      color: #fff;
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255, 165, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .close {
+      color: #ffcc00;
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #fff;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* --- Footer --- */
+    footer {
+      margin: 40px 0 20px;
+      color: #777;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    footer a {
+      color: #ffcc00;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- Responsive --- */
+    @media screen and (max-width: 768px) {
+      h1 {
+        font-size: 26px;
+      }
+      h2 {
+        font-size: 16px;
+        width: 95%;
+      }
+      .progress {
+        width: 95%;
+      }
+      .center-title {
+        font-size: 16px;
+      }
+    }
+  </style>
+
+  <script>
+    // Disable context menu and inspect
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.addEventListener('keydown', function(event) {
+      if (
+        event.key === 'F12' ||
+        (event.ctrlKey && (event.key === 'u' || event.key === 'c' || event.key === 'i' || event.key === 'x'))
+      ) {
+        event.preventDefault();
+      }
+    });
+
+    // Fade-in body and delay info link
+    window.addEventListener('load', function() {
+      document.body.classList.add('loaded');
+      setTimeout(() => {
+        document.querySelector('.info-link').style.display = 'block';
+      }, 1500);
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjnKLx-rFKwzwJK-QKH6xs4PnxJbWzed2zckZUr1siYOZ3OK6v4W71MBbUnvux-_ZZj9fV6k1NsxAszJftnbOujhs_8TrkDHs20cvUhVBrlhyphenhyphen8toGoqp1hSRinsufKYCozZix-sYboKe8y7C-7qLCrpuQbL4XIPti6jBKq_xOurLiPDNr4/s1600/logo.png" alt="Turbozt Logo" class="logo">
+    <h1>Updated Story</h1>
+  </header>
+
+  <div class="center-title">All Projects Timeline</div>
+
+  <!-- Completed Projects -->
+  <h2>Cityboy<br><center>Completed ✓</center></h2>
+  <div class="progress"><div class="progress-bar"></div></div>
+
+  <h2>Lines Of Imagination<br><center>Completed ✓</center></h2>
+  <div class="progress"><div class="progress-bar"></div></div>
+
+  <h2>Ancient World Of Sayatrian<br><center>Completed ✓</center></h2>
+  <div class="progress"><div class="progress-bar"></div></div>
+
+  <!-- In Progress -->
+  <h2>Two Side<br>In Progress...</h2>
+  <div class="progress"><div class="loading-bar"></div></div>
+
+  <div class="info-link" onclick="document.getElementById('infoModal').style.display='block'">
+    *VC Established Site*
+  </div>
+
+  <!-- Modal -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('infoModal').style.display='none'">&times;</span>
+      <p>Verified Content Only. Visit website info about VC rules.<br>Thank you!</p>
+    </div>
+  </div>
+
+  <script>
+    // Modal close behavior
+    window.onclick = function(event) {
+      const modal = document.getElementById('infoModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  </script>
+
+  <footer>
+    <p>For more enquiry, <a href="mailto:turboztofficial@gmail.com" target="_blank">CONTACT US</a></p>
+  </footer>
+</body>
+</html>
