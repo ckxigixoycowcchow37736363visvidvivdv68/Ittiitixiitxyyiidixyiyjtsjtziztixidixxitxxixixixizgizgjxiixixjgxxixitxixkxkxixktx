@@ -1,266 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turbozt - Entertainment</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            background: linear-gradient(135deg, rgba(255, 165, 0, 0.8), rgba(255, 255, 0, 0.8)); /* Yellow-orange gradient */
-            height: 100vh; /* Full viewport height */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Turbozt - Entertainment</title>
+  <style>
+    /* --- Base & Layout --- */
+    body {
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      background: radial-gradient(circle at top, #111 0%, #000 100%);
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-        body.loaded {
-            opacity: 1;
-        }
+    body.loaded {
+      opacity: 1;
+    }
 
-        header {
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
+    header {
+      text-align: center;
+      padding: 40px 20px 10px;
+      z-index: 10;
+    }
 
-        h2.subheading {
-            font-size: 24px;
-            color: #333;
-            margin: 10px 0;
-        }
+    img.logo {
+      width: 120px;
+      filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.8));
+    }
 
-        img.logo {
-            width: 100px;
-            height: auto;
-            max-width: 100%;
-        }
+    h2.subheading {
+      font-size: 26px;
+      margin: 10px 0;
+      background: linear-gradient(90deg, #ffa500, #ffff00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
 
-        /* Tab Styles */
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            flex-wrap: wrap;
-        }
+    /* --- Tabs (Top Navigation) --- */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0 40px;
+      width: 100%;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-        .tab {
-            background-color: gray;
-            color: white;
-            padding: 10px 20px;
-            font-size: 18px;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.3s ease;
-            margin: 5px;
-            flex: 1;
-            text-align: center;
-        }
+    .tab {
+      background: linear-gradient(90deg, #222, #333);
+      color: #fff;
+      padding: 12px 25px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 10px rgba(255, 165, 0, 0.3);
+      transition: all 0.3s ease;
+    }
 
-        .tab:hover {
-            background-color: #555;
-        }
+    .tab:hover {
+      background: linear-gradient(90deg, #ff9900, #ffcc00);
+      color: #000;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 200, 0, 0.6);
+    }
 
-       
+    /* --- Content Grid --- */
+    .content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      width: 100%;
+      max-width: 1300px;
+      padding: 0 20px;
+    }
 
-        .content {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            width: 100%;
-            margin: 20px 0;
-            z-index: 1;
-        }
+    .comic {
+      background: #141414;
+      border-radius: 15px;
+      width: 320px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0 0 15px rgba(255, 165, 0, 0.2);
+    }
 
-        .comic {
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            width: 45%; /* Adjust the width as needed */
-            margin: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            text-align: center;
-        }
+    .comic:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 200, 0, 0.6);
+    }
 
-        .comic img {
-            width: 100%;
-            height: auto;
-        }
+    .comic img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 2px solid #ffa500;
+    }
 
-        .comic-title {
-            font-size: 18px;
-            margin: 10px 0;
-        }
+    .comic h3 {
+      font-size: 20px;
+      margin: 12px 0 5px;
+      color: #ffcc33;
+    }
 
-        .read-more {
-            background-color: blue;
-            color: white;
-            padding: 10px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            transition: background-color 0.3s ease;
-            margin-bottom: 10px;
-        }
+    .comic-title {
+      font-size: 14px;
+      color: #aaa;
+      margin-bottom: 15px;
+    }
 
-        .read-more:hover {
-            background-color: #555;
-        }
+    .read-more {
+      background: linear-gradient(90deg, #ff9900, #ffcc00);
+      color: #000;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
 
-        /* Update Notice Section */
-        .update-notice {
-            background-color: #f9f9f9;
-            padding: 20px;
-            width: 100%;
-            text-align: center;
-            font-size: 18px;
-            margin-top: 20px;
-            border-top: 2px solid #ccc;
-        }
+    .read-more:hover {
+      background: #fff;
+      color: #000;
+      box-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
+    }
 
-        /* Responsive Design */
-        @media screen and (max-width: 768px) {
-            .tabs {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
+    /* --- Update Notice --- */
+    .update-notice {
+      margin-top: 40px;
+      background: #111;
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 16px;
+      color: #ccc;
+      letter-spacing: 1px;
+    }
 
-            .tab {
-                flex-basis: calc(33.33% - 10px);
-                margin: 5px;
-                font-size: 14px; /* Reduce font size on mobile */
-                padding: 10px;
-            }
+    /* --- Info Popup --- */
+    .info-link {
+      cursor: pointer;
+      color: #ffcc00;
+      margin-top: 30px;
+      text-align: center;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
 
-        /* Info Popup */
-        .info-link {
-            cursor: pointer;
-            color: orange;
-            text-align: center;
-            margin-top: 20px;
-        }
-            .comic {
-                width: 90%; /* Full width on smaller screens */
-            }
-        }
-        /* Modal Styles */
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1000; 
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto; 
-            background-color: rgb(0,0,0); 
-            background-color: rgba(0,0,0,0.4); 
-            padding-top: 60px;
-        }
+    /* --- Modal --- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+    }
 
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto; 
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%; 
-            max-width: 400px; 
-            text-align: center;
-            border-radius: 10px;
-        }
-    </style>
+    .modal-content {
+      background: #1a1a1a;
+      color: #fff;
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 165, 0, 0.6);
+    }
+
+    .close {
+      color: #ffcc00;
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #fff;
+    }
+
+    /* --- Responsive --- */
+    @media screen and (max-width: 768px) {
+      .tab {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .comic {
+        width: 90%;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgws9AhIndqGeXy2wxVfIZDgYlFDwL-5txGNrLnjODIvHuiImBFW-t7UpBYH5gSXYC0ifyQFlyL8COZrjZ7CpE8-9EQbTkrxWCesnE2PIvKqR4lD39WETf77VsjB_SqLl5bmmbBovAABWtkhY1Uirnnoj26GT7m3Y-KNLz8zgQTkgjTnFo/s1600/logo.png" alt="Turbozt Logo" class="logo">
-        <h2 class="subheading">Story</h2>
-    </header>
+  <header>
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgws9AhIndqGeXy2wxVfIZDgYlFDwL-5txGNrLnjODIvHuiImBFW-t7UpBYH5gSXYC0ifyQFlyL8COZrjZ7CpE8-9EQbTkrxWCesnE2PIvKqR4lD39WETf77VsjB_SqLl5bmmbBovAABWtkhY1Uirnnoj26GT7m3Y-KNLz8zgQTkgjTnFo/s1600/logo.png" alt="Turbozt Logo" class="logo">
+    <h2 class="subheading">Story</h2>
+  </header>
 
-    <!-- Tabs (Toolbar) -->
-    <div class="tabs">
-        <div class="tab" onclick="window.location.href='index.html'">Home</div>
-       
+  <div class="tabs">
+    <div class="tab" onclick="window.location.href='index.html'">Home</div>
+    <div class="tab" onclick="window.location.href='updatedstory.html'">List</div>
+
+  </div>
+
+  <div class="content">
+    <div class="comic">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKr6VzgBRqaZKjWDCzo-zQeh5jdcER1vzU2na8nTcqXccx-3JyPmRoGTvi16qCeUFpJRR3kef3HcyCwLFa0I-tdbIQk1X9XcWTohAq0nMuT5-0YBWR8vwNx7V1nuuJqP-nPJoIRLaUEloucDfKI1WOIE2ZZSGly30zp2jrWahfvSgksXY/s1600/Picsart_25-08-29_02-19-39-403.jpg" alt="Comic 1">
+      <h3>Ancient World Of Sayatrian</h3>
+      <div class="comic-title">Action • Fantasy • Adventure</div>
+      <a href="https://www.amazon.com/dp/B0CMCBCHF3" class="read-more">Buy Now</a>
     </div>
 
-    <div class="content">
-        <div class="comic">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKr6VzgBRqaZKjWDCzo-zQeh5jdcER1vzU2na8nTcqXccx-3JyPmRoGTvi16qCeUFpJRR3kef3HcyCwLFa0I-tdbIQk1X9XcWTohAq0nMuT5-0YBWR8vwNx7V1nuuJqP-nPJoIRLaUEloucDfKI1WOIE2ZZSGly30zp2jrWahfvSgksXY/s1600/Picsart_25-08-29_02-19-39-403.jpg" alt="Comic 1">
-            <h3>Ancient World Of Sayatrian</h3>
-            <div class="comic-title">action,fantasy,adventure</div>
-            <a href="https://www.amazon.com/dp/B0CMCBCHF3" class="read-more">Buy Now</a>
-        </div>
-        <div class="comic">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7NVugke-7JiflvASQBnrpavF4TM0iCaE9nkwBqJnslIpIprgDdwLEpkRo3TVrqCfG9WtqPlskv8o-jR3WHaCyenD0WKDMO3-aLicQqsJ-5Ot9JcXhlY0j2oXf1HXi0Z3K8R8iuxqoXsPBPcl2ZgLKatqwd-Cwg39rbrbXNQZsEjny5ag/s1600/713ivbYHOyL._UF1000,1000_QL80_FMwebp_.webp" alt="Comic 1">
-            <h3>Lines Of Imagination</h3>
-            <div class="comic-title">Drama,fantasy,adventure</div>
-            <a href="https://www.amazon.com/dp/B0DFZZ8VP6" class="read-more">Buy Now</a>
-        </div>
-          <div class="comic">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOsKWUJGnRYTFbXSyUDgqnmz8JMH44KsiOYKxyYhG-yG2rh4HMeqK-gWB44A1-kjbc2U71LU-p4Lp0c4VYRavG3233bnr8ymLqUoXmt9S47QXF2x3YqzG67ImjoitR8qrd0YDoPHy_VOHTUFxDHi6_8MpTwgajkllh0kIquCbT4ulPD8k/s1600/Picsart_25-10-29_13-34-36-961.jpg" alt="Comic 1">
-            <h3>Cityboy</h3>
-            <div class="comic-title">Action,adventure</div>
-            <a href="https://www.amazon.com/dp/B0FY65T3SB" class="read-more">Buy Now</a>
-        </div>
-        
-       
+    <div class="comic">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh7NVugke-7JiflvASQBnrpavF4TM0iCaE9nkwBqJnslIpIprgDdwLEpkRo3TVrqCfG9WtqPlskv8o-jR3WHaCyenD0WKDMO3-aLicQqsJ-5Ot9JcXhlY0j2oXf1HXi0Z3K8R8iuxqoXsPBPcl2ZgLKatqwd-Cwg39rbrbXNQZsEjny5ag/s1600/713ivbYHOyL._UF1000,1000_QL80_FMwebp_.webp" alt="Comic 2">
+      <h3>Lines Of Imagination</h3>
+      <div class="comic-title">Drama • Fantasy • Adventure</div>
+      <a href="https://www.amazon.com/dp/B0DFZZ8VP6" class="read-more">Buy Now</a>
     </div>
 
-    <!-- Update Notice Section -->
-    <div class="update-notice">
-        <p>Stay tuned for updates! New features and content coming soon.</p>
+    <div class="comic">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOsKWUJGnRYTFbXSyUDgqnmz8JMH44KsiOYKxyYhG-yG2rh4HMeqK-gWB44A1-kjbc2U71LU-p4Lp0c4VYRavG3233bnr8ymLqUoXmt9S47QXF2x3YqzG67ImjoitR8qrd0YDoPHy_VOHTUFxDHi6_8MpTwgajkllh0kIquCbT4ulPD8k/s1600/Picsart_25-10-29_13-34-36-961.jpg" alt="Comic 3">
+      <h3>Cityboy</h3>
+      <div class="comic-title">Action • Adventure</div>
+      <a href="https://www.amazon.com/dp/B0FY65T3SB" class="read-more">Buy Now</a>
     </div>
+  </div>
 
-    <!-- Prevention scripts -->
-    <script>
-        // Disable right-click context menu
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+  <div class="update-notice">
+    <p>🚀 Stay tuned for updates! New features and content coming soon.</p>
+  </div>
 
-        // Disable F12 and inspect element
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault();
-            }
-        });
+  <div class="info-link" onclick="document.getElementById('infoModal').style.display='block'">
+    *VC Established Site*
+  </div>
 
-        // Page load effect
-        window.addEventListener('load', function() {
-            document.body.classList.add('loaded');
-        });
-    </script>
-    
-    <!-- Info Link -->
-    <div class="info-link" onclick="document.getElementById('infoModal').style.display='block'">
-        <span style="color:orange;"> *VC established site*</span>
+  <!-- Modal -->
+  <div id="infoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('infoModal').style.display='none'">&times;</span>
+      <p>Verified Content only. Visit the website info about VC rules.<br>Thank you!</p>
     </div>
+  </div>
 
-    <!-- Modal for Info -->
-    <div id="infoModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="document.getElementById('infoModal').style.display='none'">&times;</span>
-            <p>verified content only.visit website info about VC rules .Thank You!
-            </p>
-        </div>
-    </div>
-    <script>
-    // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            var modal = document.getElementById('infoModal');
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }</script>
-    to know more about this website visit this <a href="info.html">link</a>
-    *initiated @2024*
+  <script>
+    // Fade-in effect
+    window.addEventListener("load", function() {
+      document.body.classList.add("loaded");
+    });
+
+    // Disable right-click and F12
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("keydown", e => {
+      if (e.key === "F12" || (e.ctrlKey && e.shiftKey && e.key === "I")) e.preventDefault();
+    });
+
+    // Modal close
+    window.onclick = function(event) {
+      const modal = document.getElementById("infoModal");
+      if (event.target == modal) modal.style.display = "none";
+    };
+  </script>
+
+  <footer style="text-align:center; color:#666; margin:40px 0;">
+    to know more about this website visit this <a href="info.html" style="color:#ffcc00;">link</a><br />
+    <span style="color:#777;">*initiated @2024*</span>
+  </footer>
 </body>
 </html>
