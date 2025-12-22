@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mighty Man (1830) – Comic Reader</title>
+
+<style>
+:root {
+  --bg: #0b0d12;
+  --glass: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.15);
+  --accent: #e63946;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1a1d29, #05060a);
+  color: #f2f2f2;
+}
+
+/* HEADER */
+header {
+  padding: 16px 20px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(to bottom, rgba(0,0,0,.6), transparent);
+  border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+  margin: 0;
+  letter-spacing: 2px;
+  font-size: 26px;
+}
+
+header p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #aaa;
+}
+
+/* READER */
+.reader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.comic-frame {
+  position: relative;
+  max-width: 900px;
+  width: 100%;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+}
+
+.comic-frame img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* NAV BUTTONS */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,.6);
+  border: 1px solid var(--border);
+  color: #fff;
+  font-size: 18px;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all .2s ease;
+  user-select: none;
+}
+
+.nav:hover {
+  background: var(--accent);
+}
+
+.nav.prev {
+  left: -18px;
+}
+
+.nav.next {
+  right: -18px;
+}
+
+/* FOOTER CONTROLS */
+.controls {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.controls span {
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+}
+
+/* STORY */
+.story {
+  max-width: 900px;
+  margin: 40px auto 80px;
+  padding: 24px;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  line-height: 1.7;
+}
+
+.story h2 {
+  margin-top: 0;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.story p {
+  margin-bottom: 14px;
+  color: #e6e6e6;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .nav.prev { left: 6px; }
+  .nav.next { right: 6px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>MIGHTY MAN (1830)</h1>
+  <p>Use buttons or arrow keys to turn pages</p>
+</header>
+
+<section class="reader">
+  <div class="comic-frame">
+    <button class="nav prev" onclick="prevPage()">⟨</button>
+    <img id="comicPage" src="page1.jpg" alt="Comic Page">
+    <button class="nav next" onclick="nextPage()">⟩</button>
+  </div>
+
+  <div class="controls">
+    <span id="pageIndicator">Page 1 / 4</span>
+    <span>⬅ → Keys Supported</span>
+  </div>
+</section>
+<section class="story-content">
+
+  <h1>MIGHTY MAN (1830)</h1>
+
+  <p><strong>This story is called Mighty Man (1830).</strong></p>
+
+  <h2>PRESENT — DUSK (EVENING)</h2>
+
+  <p>
+    The story begins at dusk, in the evening.  
+    The wind is strong.
+  </p>
+
+  <p>
+    Curls of wind and dust rise into the air. Leaves, wooden particles, and everything around move with the wind, following nature’s cycle.  
+    But some things never follow nature’s ways.
+  </p>
+
+  <p>
+    Two villains are holding our hero, <strong>Mighty Man</strong>, tightly by both arms.  
+    They struggle with all their strength to control him. They force him down to his knees, but he keeps resisting.
+  </p>
+
+  <p>
+    Suddenly, more villains bring his girlfriend to the scene.  
+    That day, the park turns into an open arena.
+  </p>
+
+  <p>
+    When Mighty Man sees her, his strength begins to fade.  
+    His enemies notice this weakness. Sweat pours down his face, and finally, he is forced to kneel on the ground.
+  </p>
+
+  <p><em>A hand rises…</em></p>
+
+  <p>
+    A villain removes his armored helmet to see his face.
+  </p>
+
+  <p>
+    One by one, the others step forward in anger.  
+    Punches rain down again and again until blood spills from his mouth.  
+    His face becomes badly bruised. His eyes swell, and his entire face is battered by the enemies’ blows.
+  </p>
+
+  <p>
+    Seeing the blood on his face, his girlfriend is terrified.  
+    Tears pour from her eyes like a waterfall. She screams for them to stop.
+  </p>
+
+  <p>
+    A villain slaps her to silence her.
+  </p>
+
+  <p>
+    Mighty Man looks at her, helpless and broken.  
+    Blood continues to drip from his face.
+  </p>
+
+  <p>
+    Even the birds in the sky seem disturbed by this horrifying and cruel scene.  
+    Darkness slowly begins to consume the light as the sun starts to set.
+  </p>
+
+  <p>
+    The raised hand moves again, trying to place his helmet back on…  
+    <strong>But it is already too late.</strong>
+  </p>
+
+  <p>
+    His girlfriend is gone forever.  
+    An enemy steps forward and presses a knife against her neck…
+  </p>
+
+  <p>
+    Our hero is completely surrounded.  
+    From every side, sinister figures step forward.
+  </p>
+
+  <h3>Gang Families Present</h3>
+  <ul>
+    <li>The Dwarf Twin Brothers Gang</li>
+    <li>The Godfather Gang</li>
+    <li>The Laughing Wolf Gang</li>
+    <li>The Devil Gang</li>
+  </ul>
+
+  <p>
+    All of them watch in silence.  
+    Mighty Man stands alone at the center—<br>
+    <strong>broken, unarmed, and trapped.</strong>
+  </p>
+
+  <hr>
+
+  <h2>FLASHBACK — AFTERNOON, NEW YORK (1830)</h2>
+
+  <p>
+    Earlier that same day…
+  </p>
+
+  <p>
+    In the afternoon streets of New York, a boy named <strong>Robert</strong> is chasing another boy named <strong>Alan</strong>.  
+    Robert’s face is filled with anger. There is some kind of problem between the two kids.
+  </p>
+
+  <p>
+    Alan suddenly hides behind an apple tree.  
+    Robert notices Alan peeking out from behind it, but he doesn’t pay much attention and walks past the tree.
+  </p>
+
+  <p>
+    Suddenly, Alan jumps out from behind and grabs Robert.  
+    They both fall to the ground.
+  </p>
+
+  <p>
+    Alan uses all his strength to hold him down.  
+    Robert tries to get up but falls again.
+  </p>
+
+  <p>
+    In fear, Alan calls out softly, <br>
+    <em>“James!”</em>
+  </p>
+
+  <p>
+    Suddenly, a dog barks loudly from behind Robert.  
+    Startled, Robert falls once more.
+  </p>
+
+  <p>
+    A boy named <strong>James</strong> appears.  
+    He smiles calmly and commands the dog—named <strong>Lion</strong>—to stop.
+  </p>
+
+  <p>
+    Lion obeys.
+  </p>
+
+  <p>
+    James helps Robert to his feet and asks what happened between him and Alan.
+  </p>
+
+  <p>
+    Robert says, <br>
+    <em>
+      “It’s my problem. He slapped my back, so I chased him.  
+      I wanted to teach him a lesson so he wouldn’t do it again.”
+    </em>
+  </p>
+
+  <p>
+    James listens quietly.  
+    Then he smiles slightly and thinks to himself, <br>
+    <em>“Where is Alan now?”</em>
+  </p>
+
+  <p>
+    James looks around and sees Alan walking toward his home.  
+    Alan steps inside.
+  </p>
+
+  <p>
+    James watches in silence.
+  </p>
+
+  <blockquote>
+    James is a high-status and wealthy kid.  
+    Alan and Robert are both his friends, but they come from a poor background.
+  </blockquote>
+
+</section>
+<script>
+const pages = [
+  "page1.jpg",
+  "page2.jpg",
+  "page3.jpg",
+  "page4.jpg"
+];
+
+let currentPage = 0;
+const img = document.getElementById("comicPage");
+const indicator = document.getElementById("pageIndicator");
+
+function updatePage() {
+  img.src = pages[currentPage];
+  indicator.textContent = `Page ${currentPage + 1} / ${pages.length}`;
+}
+
+function nextPage() {
+  if (currentPage < pages.length - 1) {
+    currentPage++;
+    updatePage();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    updatePage();
+  }
+}
+
+/* Keyboard support */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") nextPage();
+  if (e.key === "ArrowLeft") prevPage();
+});
+</script>
+
+</body>
+</html>
