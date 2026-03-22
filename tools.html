@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Corner Pro</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    color: white;
+    text-align: center;
+}
+
+header {
+    padding: 20px;
+    font-size: 28px;
+    background: rgba(0,0,0,0.4);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+}
+
+input, select, button {
+    width: 90%;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    background: #00c6ff;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0072ff;
+}
+
+canvas {
+    max-width: 100%;
+    margin-top: 10px;
+}
+.hi-btn {
+    display: inline-block;
+    width: 90%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    background: #00c6ff;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hi-btn:hover {
+    background: #0072ff;
+}
+    /* KNOW MORE BUTTON */
+.info-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #00c6ff;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.info-btn:hover {
+    background: #0072ff;
+}
+
+/* VC LINK */
+.info-link {
+    color: #00ffcc;
+    cursor: pointer;
+    text-decoration: underline;
+    animation: glowText 1s infinite alternate;
+}
+
+/* POPUP */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 15px;
+    z-index: 1000;
+    width: 300px;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 999;
+}
+
+.close {
+    cursor: pointer;
+    color: red;
+    float: right;
+}
+
+/* GLOW EFFECT */
+@keyframes glowText {
+    from { text-shadow: 0 0 5px #00ffcc; }
+    to { text-shadow: 0 0 15px #00ffcc; }
+}
+.loading {
+    display: none;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #00c6ff;
+}
+</style>
+</head>
+
+<body>
+
+<header>🎓 Student Corner Pro</header>
+
+
+<div class="container">
+
+<!-- IMAGE RESIZER -->
+<div class="card">
+<h3>🖼️ Image Resizer</h3>
+<input type="file" id="imgInput" accept="image/*">
+
+<select id="unit">
+<option value="px">Pixels</option>
+<option value="inch">Inches</option>
+<option value="cm">CM</option>
+</select>
+
+<input type="number" id="width" placeholder="Width">
+<input type="number" id="height" placeholder="Height">
+
+<button id="resizeBtn" onclick="resizeImage()">Resize</button>
+
+<div class="loading" id="resizeLoading">⏳ Processing...</div>
+
+<canvas id="canvas"></canvas>
+<a id="downloadLink" style="display:none;"></a>
+<p id="imgInfo"></p>
+</div>
+
+<!-- IMAGE COMPRESSOR -->
+<div class="card">
+<h3>📉 Image Compressor</h3>
+<input type="file" id="compressImg" accept="image/*">
+
+<input type="range" id="quality" min="0.1" max="1" step="0.1" value="0.7">
+<label>Quality</label>
+
+<input type="number" id="targetImgSize" placeholder="Target Size (KB)">
+
+<button id="compressBtn" onclick="compressImage()">Compress Image</button>
+
+<div class="loading" id="compressLoading">⏳ Processing...</div>
+
+<canvas id="canvas2"></canvas>
+<a id="downloadLink2" style="display:none;"></a>
+<p id="compressInfo"></p>
+</div>
+
+</div>
+    <script>
+document.addEventListener("keydown", function(e) {
+    if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && e.key === "I") ||
+        (e.ctrlKey && e.key === "U")
+    ) {
+        e.preventDefault();
+    }
+});
+</script>
+    <script>
+setInterval(function() {
+    if (window.outerWidth - window.innerWidth > 150) {
+        document.body.style.filter = "blur(10px)";
+    } else {
+        document.body.style.filter = "none";
+    }
+}, 1000);
+</script>
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+</script>
+<script>
+    
+
+// HI BUTTON
+function sayHi() {
+    alert("Hi 👋 Welcome to Student Corner!");
+}
+
+// UNIT CONVERSION
+function convertToPixels(value, unit) {
+    const dpi = 96;
+    if (unit === "px") return value;
+    if (unit === "inch") return value * dpi;
+    if (unit === "cm") return value * (dpi / 2.54);
+}
+
+// 🖼️ IMAGE RESIZER
+function resizeImage() {
+    const file = document.getElementById("imgInput").files[0];
+    const unit = document.getElementById("unit").value;
+    let w = document.getElementById("width").value;
+    let h = document.getElementById("height").value;
+
+    if (!file) return;
+
+    document.getElementById("resizeLoading").style.display = "block";
+    document.getElementById("resizeBtn").disabled = true;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+
+            let newW = convertToPixels(w || img.width, unit);
+            let newH = convertToPixels(h || img.height, unit);
+
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = newW;
+            canvas.height = newH;
+
+            ctx.drawImage(img, 0, 0, newW, newH);
+
+            const data = canvas.toDataURL("image/jpeg", 0.8);
+            let sizeKB = Math.round((data.length * 3/4) / 1024);
+
+            const link = document.getElementById("downloadLink");
+            link.href = data;
+            link.download = "resized.jpg";
+            link.style.display = "block";
+            link.innerText = "Download Image";
+
+            document.getElementById("imgInfo").innerText =
+                `New Size: ${sizeKB} KB`;
+
+            document.getElementById("resizeLoading").style.display = "none";
+            document.getElementById("resizeBtn").disabled = false;
+        }
+        img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+}
+
+// 📉 IMAGE COMPRESSOR
+function compressImage() {
+    const file = document.getElementById("compressImg").files[0];
+    let quality = document.getElementById("quality").value;
+    let target = document.getElementById("targetImgSize").value;
+
+    if (!file) return;
+
+    document.getElementById("compressLoading").style.display = "block";
+    document.getElementById("compressBtn").disabled = true;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+
+            const canvas = document.getElementById("canvas2");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            ctx.drawImage(img, 0, 0);
+
+            let data = canvas.toDataURL("image/jpeg", quality);
+            let sizeKB = Math.round((data.length * 3/4) / 1024);
+
+            if (target) {
+                let q = quality;
+                while (sizeKB > target && q > 0.1) {
+                    q -= 0.05;
+                    data = canvas.toDataURL("image/jpeg", q);
+                    sizeKB = Math.round((data.length * 3/4) / 1024);
+                }
+            }
+
+            const link = document.getElementById("downloadLink2");
+            link.href = data;
+            link.download = "compressed.jpg";
+            link.style.display = "block";
+            link.innerText = "Download Image";
+
+            document.getElementById("compressInfo").innerText =
+                `Compressed Size: ${sizeKB} KB`;
+
+            document.getElementById("compressLoading").style.display = "none";
+            document.getElementById("compressBtn").disabled = false;
+        }
+        img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+}
+function showVC() {
+    document.getElementById("vcOverlay").style.display = "block";
+    document.getElementById("vcPopup").style.display = "block";
+}
+
+function closeVC() {
+    document.getElementById("vcOverlay").style.display = "none";
+    document.getElementById("vcPopup").style.display = "none";
+}
+</script>
+<!-- KNOW MORE SECTION -->
+<div style="margin-top:30px;">
+    <p>Want to know more about this website?</p>
+    <a href="info.html" class="info-btn">Know More</a>
+</div>
+
+<!-- VC ESTABLISHED -->
+<div style="margin-top:20px;">
+    <span class="info-link" onclick="showVC()">✔ VC Established Site</span>
+</div>
+
+<!-- VC POPUP -->
+<div class="overlay" id="vcOverlay"></div>
+
+<div class="popup" id="vcPopup">
+    <span class="close" onclick="closeVC()">X</span>
+    <h3>✔ Verified Platform</h3>
+    <p>
+        This is a VC established platform.<br><br>
+        All tools and content are verified for safety and reliability.<br><br>
+        Use responsibly and enjoy!
+    </p>
+</div>
+    <!-- IMPORTANT NOTICE -->
+<div style="margin-top:30px; padding:15px; background: rgba(255,255,255,0.08); border-radius:10px; max-width:600px; margin-left:auto; margin-right:auto;">
+    <h3 style="color:#00ffcc;">⚠ Important Notice</h3>
+    <p style="font-size:14px; line-height:1.6;">
+        We do not collect, store, or upload any of your files or personal data.<br><br>
+        All processing (image resize and compression) is performed directly in your browser using your device’s capabilities.<br><br>
+        Your files never leave your device and are not sent to any server.<br><br>
+        ✔ 100% Privacy Safe<br>
+        ✔ No Data Collection<br>
+        ✔ Fully Offline Processing
+    </p>
+</div>
+</body>
+</html>
