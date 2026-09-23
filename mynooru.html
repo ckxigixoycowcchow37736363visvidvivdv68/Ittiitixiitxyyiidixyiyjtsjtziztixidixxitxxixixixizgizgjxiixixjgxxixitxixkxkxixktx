@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Special Message</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        font-family: Georgia, serif;
+        background: linear-gradient(135deg, #ffb6d9, #ff69a6, #ffb6d9);
+    }
+
+    /* Floating hearts */
+    .heart {
+        position: absolute;
+        color: rgba(255,255,255,0.7);
+        font-size: 25px;
+        animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(110vh) rotate(0deg);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-20vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    .container {
+        text-align: center;
+        width: 90%;
+        max-width: 900px;
+        z-index: 2;
+    }
+
+    .name {
+        font-size: clamp(55px, 12vw, 130px);
+        font-weight: bold;
+        color: #fff;
+        text-shadow:
+            0 0 10px #ff1493,
+            0 0 25px #ff1493,
+            0 0 50px #ff69b4;
+        animation: nameGlow 2s infinite alternate;
+    }
+
+    @keyframes nameGlow {
+        from {
+            transform: scale(1);
+        }
+        to {
+            transform: scale(1.04);
+        }
+    }
+
+    .subtitle {
+        color: white;
+        font-size: 20px;
+        margin-top: 10px;
+        opacity: 0.9;
+    }
+
+    .message {
+        display: none;
+        margin-top: 40px;
+        padding: 35px;
+        border-radius: 30px;
+        background: rgba(255,255,255,0.20);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 40px rgba(120,0,60,0.25);
+        animation: appear 1.5s ease forwards;
+    }
+
+    .message h1 {
+        margin: 0;
+        color: white;
+        font-size: clamp(32px, 6vw, 70px);
+        line-height: 1.15;
+        text-shadow: 0 4px 15px rgba(150,0,70,0.4);
+    }
+
+    .message p {
+        color: white;
+        font-size: 20px;
+        margin-top: 25px;
+    }
+
+    button {
+        margin-top: 30px;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 50px;
+        background: white;
+        color: #ff1493;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 5px 20px rgba(100,0,50,0.25);
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
+
+    @keyframes appear {
+        from {
+            opacity: 0;
+            transform: scale(0.7) translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Floating hearts -->
+<div class="heart" style="left:10%; animation-delay:0s;">♥</div>
+<div class="heart" style="left:25%; animation-delay:2s;">♡</div>
+<div class="heart" style="left:45%; animation-delay:4s;">♥</div>
+<div class="heart" style="left:65%; animation-delay:1s;">♡</div>
+<div class="heart" style="left:85%; animation-delay:3s;">♥</div>
+
+<div class="container">
+
+    <!-- Name shown first -->
+    <div id="opening">
+        <div class="name">My Nooru ❤️</div>
+        <div class="subtitle">I have something to tell you...</div>
+
+        <button onclick="openMessage()">
+            Open My Message 💗
+        </button>
+    </div>
+
+    <!-- Big sentence -->
+    <div class="message" id="message">
+
+        <h1>
+            No matter how far you are,<br>
+            i will come there..❤️
+        </h1>
+        
+       Aku sangat ingin minum susumu, aku ingin menggigit pantatmu. Aku ingin membuatmu hamil. 
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+function openMessage() {
+    document.getElementById("opening").classList.add("hidden");
+
+    const message = document.getElementById("message");
+    message.style.display = "block";
+}
+</script>
+
+</body>
+</html>
