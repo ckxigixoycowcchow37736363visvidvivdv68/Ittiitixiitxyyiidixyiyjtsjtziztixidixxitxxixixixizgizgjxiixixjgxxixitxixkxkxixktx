@@ -177,7 +177,12 @@ h1 {
 </div>
 
 <script>
-const socket = io();
+const SERVER_URL = "https://ignored-brother-chances-musical.trycloudflare.com";
+
+const socket = io(SERVER_URL, {
+    transports: ["websocket", "polling"],
+    reconnection: true
+});
 
 const heart = document.getElementById("heart");
 const countElement = document.getElementById("count");
@@ -189,8 +194,8 @@ let pending = 0;
 let sending = false;
 
 function showCount(value) {
-    count = value;
-    countElement.textContent = Number(value).toLocaleString();
+    count = Number(value);
+    countElement.textContent = count.toLocaleString();
 }
 
 function floatingHeart() {
@@ -221,14 +226,29 @@ function addActivity(data) {
         feed.lastElementChild.remove();
     }
 
-    // Show a few floating hearts for each activity event.
     for (let i = 0; i < Math.min(amount, 5); i++) {
         setTimeout(floatingHeart, i * 100);
     }
 }
 
+async function loadTotal() {
+    try {
+        const response = await fetch(SERVER_URL + "/api/total");
+        if (!response.ok) throw new Error("Could not load total");
+        const data = await response.json();
+        showCount(data.total);
+    } catch (error) {
+        statusElement.textContent = "Could not load total.";
+    }
+}
+
 socket.on("connect", () => {
     statusElement.textContent = "Live connection ❤️";
+    loadTotal();
+});
+
+socket.on("connect_error", () => {
+    statusElement.textContent = "Connecting to server...";
 });
 
 socket.on("disconnect", () => {
@@ -236,7 +256,7 @@ socket.on("disconnect", () => {
 });
 
 socket.on("counter_update", data => {
-    showCount(data.count);
+    showCount(data.total);
 });
 
 socket.on("love_activity", data => {
@@ -245,11 +265,11 @@ socket.on("love_activity", data => {
 
 async function sendTap() {
     pending++;
+
     heart.classList.remove("pulse");
     void heart.offsetWidth;
     heart.classList.add("pulse");
 
-    // Batch rapid taps to reduce network requests.
     if (!sending) {
         await flushTaps();
     }
@@ -265,7 +285,7 @@ async function flushTaps() {
         pending = 0;
 
         try {
-            const response = await fetch("/api/love", {
+            const response = await fetch(SERVER_URL + "/api/love", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -273,12 +293,15 @@ async function flushTaps() {
                 body: JSON.stringify({ amount })
             });
 
-            if (!response.ok) throw new Error("Failed");
+            if (!response.ok) throw new Error("Request failed");
+
             const data = await response.json();
-            showCount(data.count);
+            showCount(data.total);
+            statusElement.textContent = "Love sent successfully ❤️";
         } catch (error) {
-            pending += amount;
-            statusElement.textContent = "Connection issue. Retrying...";
+            // Avoid automatic retries that could double-count
+            // if the server received the request but the reply was lost.
+            statusElement.textContent = "Connection issue. Tap again.";
             break;
         }
     }
@@ -288,10 +311,7 @@ async function flushTaps() {
 
 heart.addEventListener("click", sendTap);
 
-// Retry pending taps after a temporary connection issue.
-setInterval(() => {
-    if (pending > 0 && !sending) flushTaps();
-}, 3000);
+loadTotal();
 </script>
 </body>
 </html>
