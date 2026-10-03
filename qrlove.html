@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank of Love ❤️</title>
+
+<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+    background: linear-gradient(135deg, #26001f, #9c075b, #ff659c);
+}
+
+.container {
+    width: 90%;
+    max-width: 420px;
+    margin: 65px auto 30px;
+    padding: 30px 20px;
+    border-radius: 25px;
+    background: rgba(255,255,255,.13);
+    border: 1px solid rgba(255,255,255,.25);
+    box-shadow: 0 10px 40px #30002066;
+    backdrop-filter: blur(12px);
+}
+
+h1 {
+    font-size: 30px;
+    margin: 0;
+}
+
+.subtitle {
+    color: #ffe0ed;
+    font-size: 14px;
+}
+
+.heart {
+    border: 0;
+    background: transparent;
+    font-size: 120px;
+    cursor: pointer;
+    margin: 25px 0 10px;
+    filter: drop-shadow(0 0 18px #ff174f);
+    -webkit-tap-highlight-color: transparent;
+    transition: transform .12s;
+}
+
+.heart:active {
+    transform: scale(.8);
+}
+
+.heart.pulse {
+    animation: pulse .35s ease;
+}
+
+@keyframes pulse {
+    50% { transform: scale(1.25); }
+}
+
+.counter-label {
+    font-size: 14px;
+    color: #ffd7e7;
+    letter-spacing: 2px;
+}
+
+.counter {
+    font-size: clamp(32px, 10vw, 46px);
+    font-weight: bold;
+    margin: 12px 0 20px;
+    overflow-wrap: anywhere;
+}
+
+.message {
+    line-height: 1.6;
+    color: #ffe5ef;
+}
+
+.activity {
+    max-width: 420px;
+    width: 90%;
+    margin: 0 auto 30px;
+    padding: 15px;
+    border-radius: 18px;
+    background: #39002599;
+    text-align: left;
+}
+
+.activity h3 {
+    margin: 0 0 12px;
+    font-size: 16px;
+    text-align: center;
+}
+
+#feed {
+    height: 145px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.event {
+    background: #ffffff18;
+    border-radius: 12px;
+    padding: 8px 10px;
+    font-size: 13px;
+    animation: appear .3s ease;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.status {
+    font-size: 12px;
+    color: #ffe0ed;
+    margin-top: 12px;
+}
+
+.floating {
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    pointer-events: none;
+    font-size: 23px;
+    animation: floatUp 2.5s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(.7) rotate(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-85vh) scale(1.5) rotate(30deg);
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>❤️ Bank of Love ❤️</h1>
+    <p class="subtitle">Unlimited love for everyone!</p>
+
+    <button class="heart" id="heart" aria-label="Send love">
+        ❤️
+    </button>
+
+    <div class="counter-label">TOTAL LOVE POINTS</div>
+    <div class="counter" id="count">10,000</div>
+
+    <p class="message">
+        Every tap sends one love point.<br>
+        Keep spreading love! 💕
+    </p>
+
+    <div class="status" id="status">Connecting...</div>
+</div>
+
+<div class="activity">
+    <h3>💕 Live Love Activity</h3>
+    <div id="feed"></div>
+</div>
+
+<script>
+const socket = io();
+
+const heart = document.getElementById("heart");
+const countElement = document.getElementById("count");
+const statusElement = document.getElementById("status");
+const feed = document.getElementById("feed");
+
+let count = 10000;
+let pending = 0;
+let sending = false;
+
+function showCount(value) {
+    count = value;
+    countElement.textContent = Number(value).toLocaleString();
+}
+
+function floatingHeart() {
+    const item = document.createElement("div");
+    item.className = "floating";
+    item.textContent = ["❤️", "💕", "💖", "💗", "💘"][
+        Math.floor(Math.random() * 5)
+    ];
+
+    item.style.left = (5 + Math.random() * 90) + "vw";
+    item.style.bottom = "0px";
+    document.body.appendChild(item);
+
+    setTimeout(() => item.remove(), 2600);
+}
+
+function addActivity(data) {
+    const row = document.createElement("div");
+    row.className = "event";
+
+    const amount = Number(data.amount) || 1;
+    row.textContent = "❤️ " + amount.toLocaleString() +
+        (amount === 1 ? " love point added!" : " love points added!");
+
+    feed.prepend(row);
+
+    while (feed.children.length > 8) {
+        feed.lastElementChild.remove();
+    }
+
+    // Show a few floating hearts for each activity event.
+    for (let i = 0; i < Math.min(amount, 5); i++) {
+        setTimeout(floatingHeart, i * 100);
+    }
+}
+
+socket.on("connect", () => {
+    statusElement.textContent = "Live connection ❤️";
+});
+
+socket.on("disconnect", () => {
+    statusElement.textContent = "Reconnecting...";
+});
+
+socket.on("counter_update", data => {
+    showCount(data.count);
+});
+
+socket.on("love_activity", data => {
+    addActivity(data);
+});
+
+async function sendTap() {
+    pending++;
+    heart.classList.remove("pulse");
+    void heart.offsetWidth;
+    heart.classList.add("pulse");
+
+    // Batch rapid taps to reduce network requests.
+    if (!sending) {
+        await flushTaps();
+    }
+}
+
+async function flushTaps() {
+    if (sending || pending === 0) return;
+
+    sending = true;
+
+    while (pending > 0) {
+        const amount = pending;
+        pending = 0;
+
+        try {
+            const response = await fetch("/api/love", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ amount })
+            });
+
+            if (!response.ok) throw new Error("Failed");
+            const data = await response.json();
+            showCount(data.count);
+        } catch (error) {
+            pending += amount;
+            statusElement.textContent = "Connection issue. Retrying...";
+            break;
+        }
+    }
+
+    sending = false;
+}
+
+heart.addEventListener("click", sendTap);
+
+// Retry pending taps after a temporary connection issue.
+setInterval(() => {
+    if (pending > 0 && !sending) flushTaps();
+}, 3000);
+</script>
+</body>
+</html>
