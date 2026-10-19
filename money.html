@@ -1,0 +1,1109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>My Money Tracker</title>
+<style>
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--text:#eef4ff;--muted:#9aaac2;--line:#293851;--green:#4ade80;--blue:#7dd3fc;--red:#fda4af;--gold:#facc15}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#162740 0,#0b1220 55%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;background:#2563eb;color:white;font-weight:700}
+button.secondary{background:#24334b;color:#e5eefc}
+button.danger{background:#7f1d1d}
+.wrap{max-width:1050px;margin:auto;padding:18px 14px 40px}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:8px 0 20px}
+.brand{display:flex;gap:11px;align-items:center}
+.logo{width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,#2563eb,#06b6d4);font-size:24px}
+.eyebrow{color:var(--blue);font-size:12px;letter-spacing:1.4px;font-weight:800}
+.sub{color:var(--muted);font-size:13px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:7px 10px;color:var(--muted);font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.stat,.panel{background:linear-gradient(150deg,rgba(23,36,58,.98),rgba(16,27,44,.98));border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}
+.stat .label{font-size:12px;color:var(--muted)}
+.stat .value{font-size:clamp(18px,3vw,25px);font-weight:800;margin-top:8px;overflow-wrap:anywhere}
+.green{color:var(--green)}
+.blue{color:var(--blue)}
+.gold{color:var(--gold)}
+.red{color:var(--red)}
+.tabs{display:flex;gap:8px;overflow:auto;padding:3px 0 12px;margin-bottom:4px}
+.tabs button{white-space:nowrap;background:#17243a;color:var(--muted);border:1px solid var(--line)}
+.tabs button.active{background:#2563eb;color:white;border-color:#2563eb}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel h2{font-size:17px;margin:0 0 5px}
+.panel p.hint{font-size:12px;color:var(--muted);margin:0 0 16px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field label{font-size:12px;color:#c6d2e4;font-weight:700}
+.field input,.field select,.field textarea{width:100%;border:1px solid #354761;background:#0b1525;color:var(--text);padding:11px 12px;border-radius:11px;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#60a5fa}
+.field textarea{resize:vertical;min-height:68px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.full{width:100%}
+.list{display:flex;flex-direction:column;gap:9px}
+.item{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;background:#0d1829;border:1px solid var(--line);border-radius:13px;padding:12px}
+.item-main{min-width:0}
+.item-title{font-weight:750;overflow-wrap:anywhere}
+.meta{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
+.amount{font-weight:800;white-space:nowrap;text-align:right}
+.empty{padding:25px 12px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:13px}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.sectionhead h2{margin:0}
+.mini{padding:6px 9px;font-size:12px;border-radius:9px}
+.bucketgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bucket{background:#0d1829;border:1px solid var(--line);border-radius:14px;padding:13px}
+.bucket .name{font-weight:750}
+.bucket .amt{font-size:21px;font-weight:850;margin:8px 0 4px}
+.bucket .meta{min-height:30px}
+.progress{height:6px;background:#26354b;border-radius:99px;overflow:hidden;margin:10px 0}
+.progress span{height:100%;display:block;background:linear-gradient(90deg,#38bdf8,#4ade80);width:0}
+.rowbtn{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.filterbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filterbar select,.filterbar input{background:#0b1525;color:var(--text);border:1px solid #354761;border-radius:10px;padding:9px;min-width:0}
+.notice{font-size:12px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line);margin-top:16px;padding-top:12px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#e5f9ec;color:#123321;padding:12px 17px;border-radius:12px;font-weight:700;box-shadow:0 10px 30px #0006;display:none;z-index:10;max-width:90vw}
+.footer{text-align:center;color:var(--muted);font-size:11px;margin-top:20px}
+.hidden{display:none!important}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}.wrap{padding:12px 10px 30px}.stat,.panel{padding:13px}.bucketgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:380px){.bucketgrid,.two{grid-template-columns:1fr}.stats{gap:7px}.stat .value{font-size:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="brand">
+    <div class="logo">₹</div>
+    <div>
+      <div class="eyebrow">PERSONAL FINANCE</div>
+      <div style="font-size:23px;font-weight:850">My Money Tracker</div>
+      <div class="sub">Track savings, transfers and spending — SAR</div>
+    </div>
+  </div>
+  <div class="pill" id="todayPill">Local date & time</div>
+</header>
+
+<section class="stats">
+  <div class="stat"><div class="label">TOTAL MONEY LEFT</div><div class="value green" id="totalLeft">SAR 0.00</div><div class="sub">All tracked SAR accounts</div></div>
+  <div class="stat"><div class="label">ALINMA SAVINGS</div><div class="value blue" id="alinmaTotal">SAR 0.00</div><div class="sub">Personal bank balance</div></div>
+  <div class="stat"><div class="label">BARQ — NT</div><div class="value" id="ntTotal">SAR 0.00</div><div class="sub">Money allocated to NT</div></div>
+  <div class="stat"><div class="label">BARQ — FT</div><div class="value gold" id="ftTotal">SAR 0.00</div><div class="sub">Money allocated to FT</div></div>
+  <div class="stat"><div class="label">TOTAL BARQ CASH</div><div class="value gold" id="barqTotal">SAR 0.00</div><div class="sub">NT + FT combined</div></div>
+  <div class="stat"><div class="label">INDIAN BANKS TOTAL</div><div class="value" id="indianTotal">₹0.00</div><div class="sub">All INR bank accounts combined</div></div>
+</section>
+
+<nav class="tabs" aria-label="Sections">
+  <button class="active" data-tab="overview">Overview</button>
+  <button data-tab="add">Add money</button>
+  <button data-tab="spend">Spending buckets</button>
+  <button data-tab="history">History & reports</button>
+  <button data-tab="backup">Backup & settings</button>
+</nav>
+
+<section id="tab-overview">
+  <div class="layout">
+    <div class="panel">
+      <div class="sectionhead"><h2>Account breakdown</h2><span class="pill">Grouped by currency</span></div>
+      <div id="accountBreakdown" class="list"></div>
+      <div class="notice">Transfers between your own tracked accounts move money; they do not count as income or spending. Spending is recorded against a bucket.</div>
+    </div>
+    <div class="panel">
+      <div class="sectionhead"><h2>Recent activity</h2><button class="secondary mini" onclick="showTab('history')">See all</button></div>
+      <div id="recentList" class="list"></div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:14px">
+    <div class="sectionhead"><h2>Spending buckets</h2><button class="secondary mini" onclick="showTab('spend')">Manage buckets</button></div>
+    <div id="overviewBuckets" class="bucketgrid"></div>
+  </div>
+</section>
+
+<section id="tab-add" class="hidden">
+  <div class="layout">
+    <div class="panel">
+      <h2>Add money / transfer</h2>
+      <p class="hint">Choose where the money comes from and where it goes. Entries get the date and time automatically, and you can edit it.</p>
+      <form id="txForm">
+        <div class="field"><label for="txType">Action</label><select id="txType"><option value="deposit">Add money / income</option><option value="transfer">Transfer between accounts</option><option value="spend">Spend from a bucket</option><option value="adjust">Set account balance (opening / correction)</option></select></div>
+        <div class="two" id="fromToRow">
+          <div class="field"><label for="txFrom">From</label><select id="txFrom"></select></div>
+          <div class="field"><label for="txTo">To</label><select id="txTo"></select></div>
+        </div>
+        <div class="field hidden" id="bucketField"><label for="txBucket">Spending bucket</label><select id="txBucket"></select></div>
+        <div class="field hidden" id="adjustField"><label for="adjustAccount">Account to set</label><select id="adjustAccount"></select></div>
+        <div class="two">
+          <div class="field"><label for="txAmount">Amount (SAR or INR according to account)</label><input id="txAmount" type="number" min="0.01" step="0.01" placeholder="0.00" required></div>
+          <div class="field"><label for="txDate">Date & time</label><input id="txDate" type="datetime-local" required></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="txMethod">Channel / bank</label><select id="txMethod"><option>Alinma</option><option>Barq</option><option>Cash</option><option>Other</option></select></div>
+          <div class="field"><label for="txPerson">To whom / from whom</label><input id="txPerson" placeholder="NT, FT, shop, etc."></div>
+        </div>
+        <div class="field"><label for="txPurpose">Purpose / note</label><input id="txPurpose" placeholder="Savings, sending to family, groceries..."></div>
+        <div class="field"><label for="txRef">Reference (optional)</label><input id="txRef" placeholder="Transaction ID or short note"></div>
+        <button class="full" type="submit">Save transaction</button>
+      </form>
+    </div>
+
+    <div class="panel">
+      <h2>Quick guide</h2><p class="hint">Use these options to keep totals accurate.</p>
+      <div class="item"><div class="item-main"><div class="item-title">1. Add savings to Alinma</div><div class="meta">Action: Add money / income · To: Alinma Personal</div></div></div>
+      <div class="item"><div class="item-main"><div class="item-title">2. Allocate money to NT or FT</div><div class="meta">Action: Transfer · From: Alinma Personal · To: Barq — NT or Barq — FT</div></div></div>
+      <div class="item"><div class="item-main"><div class="item-title">3. Spend money</div><div class="meta">Action: Spend from a bucket · choose the account that paid and the bucket. The account balance decreases.</div></div></div>
+      <div class="item"><div class="item-main"><div class="item-title">4. Record an existing balance</div><div class="meta">Action: Set account balance · useful for your starting balance.</div></div></div>
+      <div class="notice">Tip: Set your current account balances once, then record every deposit, transfer and purchase. Your data is stored locally on this device.</div>
+    </div>
+  </div>
+</section>
+
+<section id="tab-spend" class="hidden">
+  <div class="layout">
+    <div class="panel">
+      <h2>Spending buckets</h2>
+      <p class="hint">Create a bucket once (e.g. food, transport, phone). Reuse the same bucket when you spend again.</p>
+      <div id="bucketList" class="bucketgrid"></div>
+    </div>
+    <div class="panel">
+      <h2>Create a bucket</h2><p class="hint">Optional target is a budgeting goal.</p>
+      <form id="bucketForm">
+        <div class="field"><label for="bucketName">Bucket name</label><input id="bucketName" required maxlength="45" placeholder="e.g. Food, Transport, Phone"></div>
+        <div class="field"><label for="bucketTarget">Target (SAR, optional)</label><input id="bucketTarget" type="number" min="0" step="0.01" placeholder="0.00"></div>
+        <button class="full">Create bucket</button>
+      </form>
+      <div class="notice">Buckets track spending categories; their amounts are not added again to your total money.</div>
+    </div>
+  </div>
+</section>
+
+<section id="tab-history" class="hidden">
+  <div class="panel">
+    <div class="sectionhead"><h2>Transactions</h2></div>
+    <div class="filterbar">
+      <input id="searchHistory" placeholder="Search person, purpose, reference">
+      <select id="filterAccount"><option value="">All accounts</option></select>
+      <select id="filterType">
+        <option value="">All actions</option>
+        <option value="deposit">Deposits</option>
+        <option value="transfer">Transfers</option>
+        <option value="spend">Spending</option>
+        <option value="adjust">Balance corrections</option>
+      </select>
+    </div>
+    <div id="historyList" class="list"></div>
+    <div class="notice">Deleting an entry reverses its effect on tracked balances.</div>
+  </div>
+</section>
+
+<section id="tab-backup" class="hidden">
+  <div class="layout">
+    <div class="panel">
+      <h2>Backup Report & Recovery Code</h2>
+      <p class="hint">Create a compact recovery code containing your balances, accounts, buckets and transaction history.</p>
+
+      <button class="full" onclick="createRecoveryCode()">Create Backup Report</button>
+
+      <div id="backupReport" class="hidden" style="margin-top:14px">
+        <div class="item" style="display:block">
+          <h3 style="margin-top:0">My Money Tracker Report</h3>
+          <div id="backupSummary" class="meta"></div>
+
+          <div class="field" style="margin-top:12px">
+            <label for="recoveryCode">Your recovery code</label>
+            <textarea id="recoveryCode" rows="6" readonly placeholder="Your recovery code will appear here"></textarea>
+          </div>
+
+          <button class="full" onclick="copyRecoveryCode()">Copy Recovery Code</button>
+        </div>
+      </div>
+
+      <div style="height:20px"></div>
+
+      <h2>Restore from Code</h2>
+      <p class="hint">Paste a recovery code you saved earlier. Your current data will be replaced.</p>
+
+      <div class="field">
+        <label for="restoreCode">Recovery code</label>
+        <textarea id="restoreCode" rows="5" placeholder="Paste your saved recovery code here"></textarea>
+      </div>
+
+      <button class="secondary full" onclick="restoreRecoveryCode()">Restore My Data</button>
+
+      <div class="notice">Keep your recovery code private. Anyone with the code may be able to recover your financial records. Save it somewhere safe.</div>
+    </div>
+
+    <div class="panel">
+      <h2>Add an Indian bank account</h2>
+      <p class="hint">Add Federal Bank, SBI, HDFC or any Indian bank. Balances are shown separately in INR (₹).</p>
+      <form id="indianBankForm">
+        <div class="field"><label for="indianBankName">Bank name</label><input id="indianBankName" required maxlength="60" placeholder="e.g. Federal Bank, SBI, HDFC Bank"></div>
+        <div class="field"><label for="indianAccountLabel">Account label (optional)</label><input id="indianAccountLabel" maxlength="40" placeholder="e.g. Savings account"></div>
+        <button class="full" type="submit">Add Indian bank</button>
+      </form>
+      <div class="notice">You can add multiple Indian bank accounts. INR balances are not converted into SAR.</div>
+    </div>
+
+    <div class="panel">
+      <h2>Settings & data</h2>
+      <p class="hint">Your data is stored locally on this device, not sent to a bank.</p>
+      <div class="field">
+        <label for="currency">Display currency for new general buckets</label>
+        <select id="currency">
+          <option value="SAR">SAR — Saudi Riyal</option>
+          <option value="INR">INR — Indian Rupee (display only)</option>
+          <option value="USD">USD — US Dollar (display only)</option>
+        </select>
+      </div>
+      <button class="secondary full" onclick="saveCurrency()">Save display currency</button>
+      <div style="height:10px"></div>
+      <button class="danger full" onclick="resetAll()">Reset all tracker data</button>
+      <div class="notice">Reset permanently clears saved tracker data on this device. Create a recovery code first.</div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">Private local tracker · SAR and INR totals are kept separate · Not connected to banks</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='myMoneyTracker_v1';
+
+const defaultState=()=>({
+  currency:'SAR',
+  accounts:[
+    {id:'alinma',name:'Alinma Personal',kind:'Personal savings',currency:'SAR',balance:0},
+    {id:'nt',name:'Barq — NT',kind:'Money for NT',currency:'SAR',balance:0},
+    {id:'ft',name:'Barq — FT',kind:'Money for FT',currency:'SAR',balance:0},
+    {id:'cash',name:'Cash / Other',kind:'Cash or other',currency:'SAR',balance:0}
+  ],
+  buckets:[
+    {id:'general',name:'General spending',target:0},
+    {id:'food',name:'Food',target:0},
+    {id:'transport',name:'Transport',target:0}
+  ],
+  transactions:[]
+});
+
+let state=loadState();
+
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem(KEY));
+    if(s&&Array.isArray(s.accounts)&&Array.isArray(s.buckets)&&Array.isArray(s.transactions)){
+      if(!s.currency)s.currency='SAR';
+      s.accounts.forEach(a=>{
+        if(!a.currency)a.currency=(String(a.id).startsWith('inr_')?'INR':'SAR');
+      });
+      return s;
+    }
+  }catch(e){}
+  return defaultState();
+}
+
+function persist(){
+  try{
+    localStorage.setItem(KEY,JSON.stringify(state));
+    render();
+  }catch(e){
+    showToast('Could not save data. Device storage may be full.');
+  }
+}
+
+function money(n,cur){
+  cur=cur||state.currency||'SAR';
+  try{
+    return new Intl.NumberFormat('en-US',{
+      style:'currency',currency:cur,
+      minimumFractionDigits:2,maximumFractionDigits:2
+    }).format(Number(n)||0);
+  }catch(e){
+    return cur+' '+(Number(n)||0).toFixed(2);
+  }
+}
+
+function esc(s){
+  return String(s??'').replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function nowLocal(){
+  const d=new Date();
+  d.setMinutes(d.getMinutes()-d.getTimezoneOffset());
+  return d.toISOString().slice(0,16);
+}
+
+function fmtDate(v){
+  if(!v)return 'No date';
+  const d=new Date(v);
+  return isNaN(d)?v:d.toLocaleString();
+}
+
+function acct(id){return state.accounts.find(a=>a.id===id)}
+function bucket(id){return state.buckets.find(b=>b.id===id)}
+
+function sumAccounts(currency){
+  return state.accounts
+    .filter(a=>(a.currency||'SAR')===currency)
+    .reduce((s,a)=>s+(Number(a.balance)||0),0);
+}
+
+function showToast(s){
+  const t=document.getElementById('toast');
+  t.textContent=s;
+  t.style.display='block';
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>t.style.display='none',2600);
+}
+
+function showTab(name){
+  document.querySelectorAll('[id^="tab-"]').forEach(e=>e.classList.add('hidden'));
+  document.getElementById('tab-'+name).classList.remove('hidden');
+  document.querySelectorAll('.tabs button').forEach(b=>{
+    b.classList.toggle('active',b.dataset.tab===name);
+  });
+  if(name==='history')renderHistory();
+  if(name==='spend')renderBuckets();
+}
+
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.addEventListener('click',()=>showTab(b.dataset.tab));
+});
+
+function options(sel,items,selected){
+  sel.innerHTML=items.map(x=>
+    `<option value="${esc(x.id)}">${esc(x.name)}</option>`
+  ).join('');
+  if(selected&&items.some(x=>x.id===selected))sel.value=selected;
+}
+
+function setupSelects(){
+  ['txFrom','txTo','adjustAccount','filterAccount'].forEach(id=>{
+    const s=document.getElementById(id);
+    const keep=s.value;
+    const items=state.accounts;
+
+    if(id==='filterAccount'){
+      s.innerHTML='<option value="">All accounts</option>'+
+        items.map(a=>`<option value="${esc(a.id)}">${esc(a.name)}</option>`).join('');
+      if(keep&&items.some(a=>a.id===keep))s.value=keep;
+    }else{
+      options(
+        s,items,
+        keep||(id==='txFrom'?'alinma':id==='txTo'?'nt':undefined)
+      );
+    }
+  });
+
+  const b=document.getElementById('txBucket');
+  options(b,state.buckets,b.value||'general');
+}
+
+function typeChange(){
+  const t=document.getElementById('txType').value;
+  document.getElementById('fromToRow').classList.toggle('hidden',t==='adjust');
+  document.getElementById('bucketField').classList.toggle('hidden',t!=='spend');
+  document.getElementById('adjustField').classList.toggle('hidden',t!=='adjust');
+  document.getElementById('txTo').parentElement.classList.toggle('hidden',t==='spend');
+  document.getElementById('txFrom').parentElement.classList.toggle('hidden',t==='deposit');
+}
+
+document.getElementById('txType').addEventListener('change',typeChange);
+
+document.getElementById('txForm').addEventListener('submit',e=>{
+  e.preventDefault();
+
+  const type=document.getElementById('txType').value;
+  const amount=Number(document.getElementById('txAmount').value);
+  const date=document.getElementById('txDate').value;
+
+  if(!Number.isFinite(amount)||amount<=0)
+    return showToast('Enter an amount greater than zero.');
+
+  const from=document.getElementById('txFrom').value;
+  const to=document.getElementById('txTo').value;
+  const bid=document.getElementById('txBucket').value;
+  const aid=document.getElementById('adjustAccount').value;
+
+  let tx={
+    id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),
+    type,amount,date,
+    method:document.getElementById('txMethod').value,
+    person:document.getElementById('txPerson').value.trim(),
+    purpose:document.getElementById('txPurpose').value.trim(),
+    ref:document.getElementById('txRef').value.trim(),
+    created:new Date().toISOString(),
+    from,to,bucketId:bid,accountId:aid,
+    currency:((type==='adjust'?acct(aid):type==='deposit'?acct(to):acct(from))||{}).currency||state.currency||'SAR'
+  };
+
+  if(type==='deposit'){
+    if(!acct(to))return showToast('Choose the account receiving money.');
+    acct(to).balance+=amount;
+  }
+  else if(type==='transfer'){
+    if(from===to)return showToast('Choose two different accounts.');
+    if(!acct(from)||!acct(to))return showToast('Choose valid accounts.');
+    if((acct(from).currency||'SAR')!==(acct(to).currency||'SAR'))
+      return showToast('Transfers between SAR and INR accounts are disabled.');
+    if(acct(from).balance<amount)
+      return showToast('Not enough tracked balance. Set the correct opening balance first.');
+    acct(from).balance-=amount;
+    acct(to).balance+=amount;
+  }
+  else if(type==='spend'){
+    if(!acct(from))return showToast('Choose the account used to pay.');
+    if(acct(from).balance<amount)
+      return showToast('Not enough tracked balance in the paying account.');
+    if(!bucket(bid))return showToast('Choose a bucket.');
+    acct(from).balance-=amount;
+  }
+  else if(type==='adjust'){
+    if(!acct(aid))return showToast('Choose an account.');
+    const newBalance=amount;
+    const delta=newBalance-acct(aid).balance;
+    acct(aid).balance=newBalance;
+    tx.amount=Math.abs(delta);
+    tx.adjustedTo=newBalance;
+    tx.delta=delta;
+  }
+
+  state.transactions.push(tx);
+  persist();
+
+  e.target.reset();
+  document.getElementById('txDate').value=nowLocal();
+  document.getElementById('txType').value='deposit';
+  setupSelects();
+  typeChange();
+  showTab('overview');
+  showToast('Transaction saved.');
+});
+
+document.getElementById('bucketForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('bucketName').value.trim();
+  if(!name)return;
+
+  if(state.buckets.some(b=>b.name.toLowerCase()===name.toLowerCase()))
+    return showToast('A bucket with that name already exists.');
+
+  state.buckets.push({
+    id:'b_'+Date.now(),
+    name,
+    target:Math.max(0,Number(document.getElementById('bucketTarget').value)||0)
+  });
+
+  persist();
+  e.target.reset();
+  showToast('Bucket created.');
+});
+
+function bucketSpent(id,currency){
+  return state.transactions
+    .filter(t=>t.type==='spend'&&t.bucketId===id&&
+      (t.currency||(acct(t.from)||{}).currency||'SAR')===currency)
+    .reduce((s,t)=>s+Number(t.amount||0),0);
+}
+
+function renderBuckets(){
+  const html=state.buckets.map(b=>{
+    const spent=bucketSpent(b.id,'SAR');
+    const spentINR=bucketSpent(b.id,'INR');
+    const target=Number(b.target)||0;
+    const pct=target?Math.min(100,spent/target*100):0;
+
+    return `<div class="bucket">
+      <div class="name">${esc(b.name)}</div>
+      <div class="amt">${money(spent,'SAR')}</div>
+      ${spentINR?`<div class="meta">Indian spending: ${money(spentINR,'INR')}</div>`:''}
+      <div class="meta">${target?'Target: '+money(target,'SAR')+' · '+pct.toFixed(0)+'% of SAR target used':'Total spent in this bucket (by currency)'}</div>
+      ${target?`<div class="progress"><span style="width:${pct}%"></span></div>`:''}
+      <div class="rowbtn">
+        <button class="secondary mini" onclick="quickSpend('${b.id}')">Add spending</button>
+        <button class="secondary mini" onclick="editBucket('${b.id}')">Edit</button>
+        ${b.id!=='general'?`<button class="danger mini" onclick="deleteBucket('${b.id}')">Delete</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('bucketList').innerHTML=html||'<div class="empty">No buckets yet.</div>';
+  document.getElementById('overviewBuckets').innerHTML=html||'<div class="empty">No buckets yet.</div>';
+  setupSelects();
+}
+
+function quickSpend(id){
+  showTab('add');
+  document.getElementById('txType').value='spend';
+  typeChange();
+  document.getElementById('txBucket').value=id;
+  document.getElementById('txDate').value=nowLocal();
+  document.getElementById('txFrom').value='alinma';
+  document.getElementById('txPerson').focus();
+}
+
+function editBucket(id){
+  const b=bucket(id);
+  if(!b)return;
+
+  const name=prompt('Bucket name:',b.name);
+  if(name===null)return;
+
+  const clean=name.trim();
+  if(!clean)return showToast('Name cannot be empty.');
+
+  if(state.buckets.some(x=>x.id!==id&&x.name.toLowerCase()===clean.toLowerCase()))
+    return showToast('That bucket name already exists.');
+
+  const target=prompt('Target amount in SAR (0 for none):',String(b.target||0));
+  if(target===null)return;
+
+  b.name=clean;
+  b.target=Math.max(0,Number(target)||0);
+  persist();
+  showToast('Bucket updated.');
+}
+
+function deleteBucket(id){
+  if(state.transactions.some(t=>t.type==='spend'&&t.bucketId===id))
+    return showToast('This bucket has spending history. Keep it to preserve reports.');
+
+  if(!confirm('Delete this bucket?'))return;
+
+  state.buckets=state.buckets.filter(b=>b.id!==id);
+  persist();
+  showToast('Bucket deleted.');
+}
+
+function txLabel(t){
+  if(t.type==='deposit')return 'Added money → '+(acct(t.to)?.name||'account');
+  if(t.type==='transfer')return (acct(t.from)?.name||'account')+' → '+(acct(t.to)?.name||'account');
+  if(t.type==='spend')return 'Spent · '+(bucket(t.bucketId)?.name||'bucket');
+  return 'Balance set · '+(acct(t.accountId)?.name||'account');
+}
+
+function txDetail(t){
+  return [t.method,t.person?'To/from: '+t.person:'',t.purpose,t.ref?'Ref: '+t.ref:'']
+    .filter(Boolean).map(esc).join(' · ');
+}
+
+function txHtml(t,withDelete=false){
+  let sign=t.type==='spend'?'−':t.type==='deposit'?'+':t.type==='adjust'?(t.delta>=0?'+':'−'):'↔';
+  let cls=t.type==='spend'?'red':t.type==='deposit'?'green':'';
+  let currency=t.currency||(acct(t.accountId)||acct(t.to)||acct(t.from)||{}).currency||state.currency||'SAR';
+
+  return `<div class="item">
+    <div class="item-main">
+      <div class="item-title">${esc(txLabel(t))}</div>
+      <div class="meta">${esc(fmtDate(t.date))}${txDetail(t)?' · '+txDetail(t):''}</div>
+    </div>
+    <div>
+      <div class="amount ${cls}">${sign} ${money(t.type==='adjust'?Math.abs(t.delta||0):t.amount,currency)}</div>
+      ${withDelete?`<div class="rowbtn"><button class="danger mini" onclick="deleteTx('${t.id}')">Delete</button></div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderHistory(){
+  const q=document.getElementById('searchHistory').value.toLowerCase();
+  const aid=document.getElementById('filterAccount').value;
+  const type=document.getElementById('filterType').value;
+
+  const arr=[...state.transactions].reverse().filter(t=>{
+    const str=[t.person,t.purpose,t.ref,txLabel(t),t.method].join(' ').toLowerCase();
+    const matchAcc=!aid||t.from===aid||t.to===aid||t.accountId===aid;
+    return str.includes(q)&&matchAcc&&(!type||t.type===type);
+  });
+
+  document.getElementById('historyList').innerHTML=
+    arr.length?arr.map(t=>txHtml(t,true)).join(''):'<div class="empty">No transactions match.</div>';
+}
+
+function deleteTx(id){
+  const t=state.transactions.find(x=>x.id===id);
+  if(!t||!confirm('Delete this transaction and reverse its balance effect?'))return;
+
+  if(t.type==='deposit'&&acct(t.to))acct(t.to).balance-=t.amount;
+
+  if(t.type==='transfer'){
+    if(acct(t.from))acct(t.from).balance+=t.amount;
+    if(acct(t.to))acct(t.to).balance-=t.amount;
+  }
+
+  if(t.type==='spend'&&acct(t.from))acct(t.from).balance+=t.amount;
+
+  if(t.type==='adjust'&&acct(t.accountId))
+    acct(t.accountId).balance-=Number(t.delta||0);
+
+  state.transactions=state.transactions.filter(x=>x.id!==id);
+  persist();
+  renderHistory();
+  showToast('Transaction deleted and reversed.');
+}
+
+function render(){
+  document.getElementById('totalLeft').textContent=money(sumAccounts('SAR'),'SAR');
+  document.getElementById('totalLeft').nextElementSibling.textContent='SAR tracked total · INR shown separately';
+  document.getElementById('alinmaTotal').textContent=money(acct('alinma')?.balance||0,'SAR');
+  document.getElementById('ntTotal').textContent=money(acct('nt')?.balance||0,'SAR');
+  document.getElementById('ftTotal').textContent=money(acct('ft')?.balance||0,'SAR');
+  document.getElementById('barqTotal').textContent=money((acct('nt')?.balance||0)+(acct('ft')?.balance||0),'SAR');
+  document.getElementById('indianTotal').textContent=money(sumAccounts('INR'),'INR');
+
+  document.getElementById('accountBreakdown').innerHTML=state.accounts.map(a=>
+    `<div class="item">
+      <div class="item-main">
+        <div class="item-title">${esc(a.name)}</div>
+        <div class="meta">${esc(a.kind)} · ${esc(a.currency||'SAR')}</div>
+      </div>
+      <div class="amount">${money(a.balance,a.currency||'SAR')}</div>
+    </div>`
+  ).join('');
+
+  const recent=[...state.transactions].reverse().slice(0,5);
+  document.getElementById('recentList').innerHTML=recent.length?
+    recent.map(t=>txHtml(t)).join(''):
+    '<div class="empty">No activity yet. Set your starting balance or add your first transaction.</div>';
+
+  document.getElementById('todayPill').textContent=new Date().toLocaleString([],{
+    dateStyle:'medium',timeStyle:'short'
+  });
+
+  document.getElementById('currency').value=state.currency;
+  setupSelects();
+  renderBuckets();
+
+  if(!document.getElementById('tab-history').classList.contains('hidden'))
+    renderHistory();
+}
+
+document.getElementById('indianBankForm').addEventListener('submit',e=>{
+  e.preventDefault();
+
+  const bank=document.getElementById('indianBankName').value.trim();
+  const label=document.getElementById('indianAccountLabel').value.trim();
+  if(!bank)return;
+
+  const name=label?bank+' — '+label:bank;
+
+  if(state.accounts.some(a=>a.currency==='INR'&&a.name.toLowerCase()===name.toLowerCase()))
+    return showToast('That Indian bank account is already added.');
+
+  state.accounts.push({
+    id:'inr_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),
+    name,kind:'Indian bank account',currency:'INR',balance:0
+  });
+
+  persist();
+  e.target.reset();
+  showToast(bank+' added with INR currency.');
+});
+
+function saveCurrency(){
+  state.currency=document.getElementById('currency').value;
+  persist();
+  showToast('Display currency updated. Amounts are not converted.');
+}
+
+/* BACKUP REPORT AND RECOVERY CODE */
+
+function bytesToBase64(bytes){
+  let binary='';
+  const chunkSize=8192;
+
+  for(let i=0;i<bytes.length;i+=chunkSize){
+    binary+=String.fromCharCode(...bytes.subarray(i,i+chunkSize));
+  }
+
+  return btoa(binary)
+    .replace(/\+/g,'-')
+    .replace(/\//g,'_')
+    .replace(/=+$/g,'');
+}
+
+function base64ToBytes(code){
+  let base64=code.replace(/-/g,'+').replace(/_/g,'/');
+  while(base64.length%4)base64+='=';
+
+  const binary=atob(base64);
+  const bytes=new Uint8Array(binary.length);
+
+  for(let i=0;i<binary.length;i++){
+    bytes[i]=binary.charCodeAt(i);
+  }
+
+  return bytes;
+}
+
+function encodeText(text){
+  return new TextEncoder().encode(text);
+}
+
+function decodeText(bytes){
+  return new TextDecoder().decode(bytes);
+}
+
+async function gzipBytes(bytes){
+  const stream=new Blob([bytes])
+    .stream()
+    .pipeThrough(new CompressionStream('gzip'));
+
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+async function ungzipBytes(bytes){
+  const stream=new Blob([bytes])
+    .stream()
+    .pipeThrough(new DecompressionStream('gzip'));
+
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+
+async function createRecoveryCode(){
+  try{
+    const backup={
+      app:'My Money Tracker',
+      version:1,
+      exportedAt:new Date().toISOString(),
+      state:state
+    };
+
+    const bytes=encodeText(JSON.stringify(backup));
+    let code;
+
+    if(typeof CompressionStream!=='undefined'){
+      const compressed=await gzipBytes(bytes);
+      code='MT1G-'+bytesToBase64(compressed);
+    }else{
+      code='MT1B-'+bytesToBase64(bytes);
+    }
+
+    document.getElementById('recoveryCode').value=code;
+
+    document.getElementById('backupSummary').textContent=
+      'Created: '+new Date().toLocaleString()+
+      ' | Accounts: '+state.accounts.length+
+      ' | Transactions: '+state.transactions.length+
+      ' | Buckets: '+state.buckets.length+
+      ' | SAR total: '+money(sumAccounts('SAR'),'SAR')+
+      ' | INR total: '+money(sumAccounts('INR'),'INR');
+
+    document.getElementById('backupReport').classList.remove('hidden');
+    showToast('Backup recovery code created.');
+  }catch(err){
+    showToast('Could not create code: '+err.message);
+  }
+}
+
+function copyRecoveryCode(){
+  const field=document.getElementById('recoveryCode');
+
+  if(!field.value){
+    showToast('Create a backup code first.');
+    return;
+  }
+
+  field.focus();
+  field.select();
+  field.setSelectionRange(0,field.value.length);
+
+  try{
+    if(document.execCommand('copy')){
+      showToast('Recovery code copied.');
+    }else{
+      showToast('Code selected. Long-press and copy it.');
+    }
+  }catch(err){
+    showToast('Code selected. Long-press and copy it.');
+  }
+}
+
+async function restoreRecoveryCode(){
+  const input=document.getElementById('restoreCode');
+  const code=input.value.trim();
+
+  if(!code){
+    showToast('Paste your recovery code first.');
+    return;
+  }
+
+  try{
+    let json;
+
+    if(code.startsWith('MT1G-')){
+      if(typeof DecompressionStream==='undefined'){
+        throw new Error('Gzip is unsupported. Update Android System WebView or Chrome.');
+      }
+
+      const bytes=base64ToBytes(code.slice(5));
+      json=decodeText(await ungzipBytes(bytes));
+
+    }else if(code.startsWith('MT1B-')){
+      const bytes=base64ToBytes(code.slice(5));
+      json=decodeText(bytes);
+
+    }else{
+      throw new Error('Unrecognised recovery code.');
+    }
+
+    const obj=JSON.parse(json);
+    const restored=obj.state||obj;
+
+    if(
+      !restored||
+      !Array.isArray(restored.accounts)||
+      !Array.isArray(restored.buckets)||
+      !Array.isArray(restored.transactions)
+    ){
+      throw new Error('Invalid backup data.');
+    }
+
+    if(!confirm('Restore this backup? Current tracker data will be replaced.')){
+      return;
+    }
+
+    restored.accounts.forEach(a=>{
+      if(!a.currency){
+        a.currency=String(a.id||'').startsWith('inr_')?'INR':'SAR';
+      }
+    });
+
+    if(!restored.currency)restored.currency='SAR';
+
+    state=restored;
+    persist();
+
+    document.getElementById('txDate').value=nowLocal();
+    document.getElementById('txType').value='deposit';
+    setupSelects();
+    typeChange();
+    showTab('overview');
+
+    input.value='';
+    document.getElementById('backupReport').classList.add('hidden');
+
+    showToast('Your tracker data has been restored.');
+  }catch(err){
+    showToast('Restore failed: '+err.message);
+  }
+}
+
+/* RESET ALL DATA */
+
+function resetAll(){
+  if(!confirm('This permanently deletes all tracker data stored on this device. Continue?'))return;
+
+  if(!confirm('Final confirmation: delete all balances, transactions and buckets? Export a recovery code first if needed.'))return;
+
+  localStorage.removeItem(KEY);
+  state=defaultState();
+  persist();
+
+  document.getElementById('txDate').value=nowLocal();
+  document.getElementById('txType').value='deposit';
+  setupSelects();
+  typeChange();
+  showTab('overview');
+  showToast('All tracker data reset.');
+}
+
+document.getElementById('searchHistory').addEventListener('input',renderHistory);
+document.getElementById('filterAccount').addEventListener('change',renderHistory);
+document.getElementById('filterType').addEventListener('change',renderHistory);
+
+document.getElementById('txDate').value=nowLocal();
+setupSelects();
+typeChange();
+render();
+</script>
+  
+<script>
+/* My Money Tracker — Termux Server Sync */
+(() => {
+  const KEY = 'myMoneyTracker_v1';
+  const CONFIG_KEY = 'myMoneyTracker_termux_sync_v1';
+
+  const panel = document.createElement('div');
+  panel.className = 'panel';
+  panel.style.marginTop = '14px';
+
+  panel.innerHTML = `
+    <h2>Termux Server Sync</h2>
+    <p class="hint">
+      Save a backup to your Termux server and restore it when you open
+      your online tracker.
+    </p>
+    <div class="field">
+      <label for="syncUrl">Server HTTPS URL</label>
+      <input id="syncUrl" type="url"
+        placeholder="https://your-secure-tunnel-url">
+    </div>
+    <div class="field">
+      <label for="syncToken">Private access token</label>
+      <input id="syncToken" type="password"
+        placeholder="Enter your server token">
+    </div>
+    <button id="saveSyncConfig" class="secondary full">
+      Save Connection
+    </button>
+    <div style="height:10px"></div>
+    <button id="shareToServer" class="full">
+      Share to Server
+    </button>
+    <div style="height:10px"></div>
+    <button id="restoreFromServer" class="secondary full">
+      Relink / Restore from Server
+    </button>
+    <p id="syncStatus" class="notice" aria-live="polite">
+      Configure your server connection first.
+    </p>
+    <div class="notice">
+      Restoring replaces the current local tracker data. Keep a separate
+      recovery code before restoring. Never share your private token.
+    </div>
+  `;
+
+  const backupTab = document.getElementById('tab-backup');
+  if (!backupTab) return;
+
+  backupTab.insertBefore(panel, backupTab.firstChild);
+
+  const $ = id => document.getElementById(id);
+  const status = message => $('syncStatus').textContent = message;
+
+  function readConfig() {
+    return {
+      url: $('syncUrl').value.trim().replace(/\/+$/, ''),
+      token: $('syncToken').value.trim()
+    };
+  }
+
+  function loadConfig() {
+    try {
+      const c = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
+      $('syncUrl').value = c.url || '';
+      $('syncToken').value = c.token || '';
+    } catch (_) {}
+  }
+
+  function validConfig(c) {
+    if (!c.url || !c.token) {
+      status('Enter your HTTPS server URL and private token.');
+      return false;
+    }
+
+    if (!/^https:\/\//i.test(c.url)) {
+      status('Use an HTTPS URL for your online website.');
+      return false;
+    }
+
+    return true;
+  }
+
+  async function request(path, method, body) {
+    const c = readConfig();
+    if (!validConfig(c)) throw new Error('Check your connection settings.');
+
+    const response = await fetch(c.url + path, {
+      method,
+      headers: {
+        'Authorization': 'Bearer ' + c.token,
+        ...(body ? {'Content-Type': 'application/json'} : {})
+      },
+      ...(body ? {body: JSON.stringify(body)} : {})
+    });
+
+    if (!response.ok) {
+      throw new Error('Server returned HTTP ' + response.status);
+    }
+
+    return response.json();
+  }
+
+  $('saveSyncConfig').addEventListener('click', () => {
+    const c = readConfig();
+    if (!validConfig(c)) return;
+
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(c));
+    status('Connection settings saved on this device.');
+  });
+
+  $('shareToServer').addEventListener('click', async () => {
+    try {
+      const c = readConfig();
+      if (!validConfig(c)) return;
+
+      const state = JSON.parse(localStorage.getItem(KEY) || 'null');
+
+      if (!state ||
+          !Array.isArray(state.accounts) ||
+          !Array.isArray(state.buckets) ||
+          !Array.isArray(state.transactions)) {
+        throw new Error('Tracker data was not found or is invalid.');
+      }
+
+      if (!confirm('Upload your current tracker data to the server?')) return;
+
+      status('Uploading backup…');
+
+      const result = await request('/api/backup', 'PUT', {
+        app: 'My Money Tracker',
+        version: 1,
+        savedAt: new Date().toISOString(),
+        state
+      });
+
+      status('Backup uploaded successfully. ' +
+        (result.savedAt ? 'Saved: ' + result.savedAt : ''));
+    } catch (error) {
+      status('Upload failed: ' + error.message +
+        '. Check that Termux and your HTTPS tunnel are running.');
+    }
+  });
+
+  $('restoreFromServer').addEventListener('click', async () => {
+    try {
+      const c = readConfig();
+      if (!validConfig(c)) return;
+
+      if (!confirm(
+        'Download the server backup? Your current local tracker data ' +
+        'will be replaced. Create a recovery code first if needed.'
+      )) return;
+
+      status('Downloading backup…');
+
+      const result = await request('/api/backup', 'GET');
+      const restored = result.backup && result.backup.state;
+
+      if (!restored ||
+          !Array.isArray(restored.accounts) ||
+          !Array.isArray(restored.buckets) ||
+          !Array.isArray(restored.transactions)) {
+        throw new Error('The server backup is missing or invalid.');
+      }
+
+      restored.accounts.forEach(account => {
+        if (!account.currency) {
+          account.currency = String(account.id || '').startsWith('inr_')
+            ? 'INR' : 'SAR';
+        }
+      });
+
+      if (!restored.currency) restored.currency = 'SAR';
+
+      localStorage.setItem(KEY, JSON.stringify(restored));
+      status('Backup restored. Reloading tracker…');
+      location.reload();
+    } catch (error) {
+      status('Restore failed: ' + error.message +
+        '. Check the server, token, and HTTPS tunnel.');
+    }
+  });
+
+  loadConfig();
+})();
+</script>
+</body>
+</html>
