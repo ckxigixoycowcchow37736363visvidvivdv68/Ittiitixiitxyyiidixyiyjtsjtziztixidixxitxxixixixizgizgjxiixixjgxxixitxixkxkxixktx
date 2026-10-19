@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TURBOZT | Private Login</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #080d18;
+    color: #fff;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 370px;
+    padding: 35px 26px;
+    background: #111b2d;
+    border: 1px solid #293953;
+    border-radius: 22px;
+    box-shadow: 0 20px 60px #0008;
+}
+
+.logo {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #9eacc2;
+    margin-bottom: 32px;
+    font-size: 13px;
+}
+
+label {
+    display: block;
+    color: #cbd5e1;
+    font-size: 13px;
+    margin-bottom: 9px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #354763;
+    border-radius: 10px;
+    background: #091221;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 18px;
+}
+
+input:focus {
+    border-color: #72a7ff;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #78a7ff;
+    color: #071226;
+}
+
+button:disabled {
+    opacity: .6;
+}
+
+#message {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 16px;
+    color: #ff9696;
+}
+
+footer {
+    text-align: center;
+    color: #72829c;
+    font-size: 11px;
+    margin-top: 28px;
+}
+</style>
+</head>
+
+<body>
+<main class="login-card">
+    <div class="logo">TURBOZT</div>
+    <div class="subtitle">Private Access Portal</div>
+
+    <form id="loginForm">
+        <label for="password">Password</label>
+        <input
+            id="password"
+            type="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+        >
+        <button id="loginButton" type="submit">LOGIN</button>
+        <div id="message" role="status"></div>
+    </form>
+
+    <footer>SECURE ACCESS · AUTHORIZED USERS ONLY</footer>
+</main>
+
+<script>
+const SERVER_URL = "https://gmt-blades-sells-pads.trycloudflare.com";
+
+document.getElementById("loginForm").addEventListener("submit",
+async function(event) {
+    event.preventDefault();
+
+    const button = document.getElementById("loginButton");
+    const message = document.getElementById("message");
+    button.disabled = true;
+    message.style.color = "#cbd5e1";
+    message.textContent = "Checking password...";
+
+    try {
+        const response = await fetch(SERVER_URL + "/login", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                password: document.getElementById("password").value
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || "Login failed.");
+        }
+
+        // The server confirms authentication.
+        // The buttons link to server-protected pages.
+        document.querySelector(".login-card").innerHTML = `
+            <div class="logo">TURBOZT</div>
+            <div class="subtitle">Access granted</div>
+            <button onclick="openPrivate('/private/page1')">
+                OPEN PAGE 1
+            </button>
+            <div style="height:12px"></div>
+            <button onclick="openPrivate('/private/page2')">
+                OPEN PAGE 2
+            </button>
+            <div style="height:12px"></div>
+            <button onclick="logout()" style="background:#293953;color:white">
+                LOGOUT
+            </button>
+            <div id="message"></div>
+        `;
+    } catch (error) {
+        message.style.color = "#ff9696";
+        message.textContent =
+            error.message || "Cannot connect to the server.";
+    } finally {
+        button.disabled = false;
+    }
+});
+
+
+async function openPrivate(path) {
+    try {
+        const response = await fetch(SERVER_URL + path, {
+            method: "GET",
+            credentials: "include"
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                response.status === 401
+                    ? "Session missing. Please log in again."
+                    : "Could not open page."
+            );
+        }
+
+        const html = await response.text();
+
+        const page = window.open("", "_blank");
+
+        if (!page) {
+            throw new Error("Please allow pop-ups for this site.");
+        }
+
+        page.document.open();
+        page.document.write(html);
+        page.document.close();
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+
+async function logout() {
+    try {
+        await fetch(SERVER_URL + "/logout", {
+            method: "POST",
+            credentials: "include"
+        });
+    } finally {
+        window.location.reload();
+    }
+}
+</script>
+</body>
+</html>
